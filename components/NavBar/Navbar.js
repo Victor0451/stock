@@ -7,20 +7,15 @@ import {
     MenuButton,
     MenuList,
     MenuItem,
-    MenuDivider,
-    ChevronDownIcon,
     useDisclosure,
     useColorModeValue,
     Stack,
     useColorMode,
-    HStack,
-
 
 } from '@chakra-ui/react';
 
-import {
 
-} from '@chakra-ui/react'
+import Link from 'next/link';
 
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 
@@ -39,7 +34,7 @@ const NavBar = () => {
 
                     <Menu >
                         <MenuButton as={Button} ml="2" >
-                            Actions
+                            Categorias
                         </MenuButton>
                         <MenuList>
                             <MenuItem>Download</MenuItem>
@@ -52,14 +47,15 @@ const NavBar = () => {
 
                     <Menu>
                         <MenuButton as={Button} ml="2">
-                            Actions
+                            Productos
                         </MenuButton>
                         <MenuList>
-                            <MenuItem>Download</MenuItem>
-                            <MenuItem>Create a Copy</MenuItem>
-                            <MenuItem>Mark as Draft</MenuItem>
-                            <MenuItem>Delete</MenuItem>
-                            <MenuItem>Attend a Workshop</MenuItem>
+                            <Link href="/stock/nuevo">
+                                <MenuItem>Nuevo producto</MenuItem>
+                            </Link>
+                            <Link href="/stock/listado">
+                                <MenuItem>Listado de productos</MenuItem>
+                            </Link>
                         </MenuList>
                     </Menu>
                 </Box>

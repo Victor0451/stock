@@ -70,6 +70,18 @@ export default function Home() {
     }
   }
 
+  let token = jsCookie.get("token")
+
+  useEffect(() => {
+    if (token) {
+      Router.push("/home/home");
+    } else {
+      Router.push("/");
+    }
+
+
+  }, []);
+
   return (
     <Layout >
       <FormInicioSesion

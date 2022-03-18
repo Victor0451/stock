@@ -25,8 +25,7 @@ const HomeScreen = () => {
     return (
         <Box
             p={4}
-            bg={useColorModeValue('gray.50', 'gray.800')}
-            color={useColorModeValue('black', 'white')}
+       
         >
             <Stack spacing={4} as={Container} maxW={'3xl'} textAlign={'center'}>
                 <Heading fontSize={'3xl'}>This is the headline</Heading>
