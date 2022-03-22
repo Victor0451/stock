@@ -29,19 +29,37 @@ const NavBar = () => {
             <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
                 <Box color={useColorModeValue('black', 'white')}  >
 
-                    Logo
-
+                    <Link href="/">
+                        <Button as={Button} ml="2" >
+                            Inicio
+                        </Button>
+                    </Link>
 
                     <Menu >
                         <MenuButton as={Button} ml="2" >
                             Categorias
                         </MenuButton>
                         <MenuList>
-                            <MenuItem>Download</MenuItem>
-                            <MenuItem>Create a Copy</MenuItem>
-                            <MenuItem>Mark as Draft</MenuItem>
-                            <MenuItem>Delete</MenuItem>
-                            <MenuItem>Attend a Workshop</MenuItem>
+                            <Link href="/categorias/nueva">
+                                <MenuItem>Nueva categoria</MenuItem>
+                            </Link>
+                            <Link href="/categorias/listado">
+                                <MenuItem>Listado de categorias</MenuItem>
+                            </Link>
+                        </MenuList>
+                    </Menu>
+
+                    <Menu >
+                        <MenuButton as={Button} ml="2" >
+                            Proveedores
+                        </MenuButton>
+                        <MenuList>
+                            <Link href="/proveedores/nueva">
+                                <MenuItem>Nuevo proveedor</MenuItem>
+                            </Link>
+                            <Link href="/proveedores/listado">
+                                <MenuItem>Listado de proveedores</MenuItem>
+                            </Link>
                         </MenuList>
                     </Menu>
 

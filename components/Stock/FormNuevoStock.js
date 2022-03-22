@@ -28,7 +28,7 @@ const FormNuevoStock = ({
     precioVentaRef,
     registrarProducto,
     errores,
-    subirImagen,
+    cate,
     handlerArchivos
 }) => {
     return (
@@ -44,14 +44,29 @@ const FormNuevoStock = ({
 
             <Container maxW={'6xl'} mt={10} border='1px' borderColor='gray.500' borderRadius="xl" >
                 <Box className='row' p="4" alignItems="center" justifyContent="space-between">
-                    <FormControl isRequired w="xs" >
-                        <FormLabel >Categoria</FormLabel>
-                        <Select placeholder='Selecciona una opcion' ref={categoriaRef}>
-                            <option value='1'>Option 1</option>
-                            <option value='2'>Option 2</option>
-                            <option value='3'>Option 3</option>
-                        </Select>
-                    </FormControl>
+
+                    {
+                        !cate ? (
+                            <FormControl isRequired w="xs" >
+                                <Alert className='mt-4' status='info' ariant='left-accent'>
+                                    <AlertIcon />
+                                    <AlertDescription>No hay categorias registradas.</AlertDescription>
+                                </Alert>
+                            </FormControl>
+                        ) : (
+                            <FormControl isRequired w="xs" >
+                                <FormLabel >Categoria</FormLabel>
+                                <Select placeholder='Selecciona una opcion' ref={categoriaRef}>
+                                    {
+                                        cate.map((c, index) => (
+                                            <option key={index} value={c.idcategoria}>{c.categoria}</option>
+                                        ))
+                                    }
+                                </Select>
+                            </FormControl>
+                        )
+                    }
+
 
                     <FormControl isRequired w="xs" >
                         <FormLabel >Proveedor</FormLabel>

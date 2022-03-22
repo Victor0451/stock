@@ -8,72 +8,56 @@ import {
     Text,
     Stack,
     Button,
+
 } from '@chakra-ui/react';
-
 import Link from 'next/link';
-import ModalVista from './ModalVista';
 import ModalEditar from './ModalEditar';
-import BajaProductos from './BajaProductos';
+import BajaProductos from './BajaProveedores';
+import ModalVista from './ModalVista';
 
-const ListadoStock = ({
+const ListadoProveedores = ({
     listado,
+    editarProveedor,
     errores,
-    categoriaRef,
     proveedorRef,
-    marcaRef,
-    productoRef,
-    stockRef,
-    precioListaRef,
-    precioVentaRef,
-    editarProducto,
-    editarStock,
-    bajaProducto,
-    eliminarImagen,
-    handlerArchivos,
-    subirImagen,
+    telefonoRef,
+    direccionRef,
+    descripcionRef,
+    cuitRef,
+    cuentaRef,
+    mailRef,
+    bajaProveedor
 }) => {
 
     const columns = [
 
         {
             name: "ID",
-            selector: "idproducto",
+            selector: "idproveedor",
             sortable: true,
             grow: 0.1
         },
 
         {
-            name: "Marca",
-            selector: "marca",
+            name: "Proveedor",
+            selector: "proveedor",
             sortable: true,
             grow: 0.2
         },
         {
-            name: "Producto",
-            selector: "producto",
+            name: "Telefono",
+            selector: "telefono",
             sortable: true,
             grow: 0.3
         },
         {
-            name: "Precio Lista",
-            selector: "precio_lista",
+            name: "Direccion",
+            selector: "direccion",
             sortable: true,
             grow: 0.2
         },
 
-        {
-            name: "Precio Venta",
-            selector: "precio_venta",
-            sortable: true,
-            grow: 0.2
-        },
 
-        {
-            name: "Stock",
-            selector: "stock",
-            sortable: true,
-            grow: 0.1
-        },
         {
             name: "acciones",
             button: true,
@@ -86,24 +70,21 @@ const ListadoStock = ({
 
                     <ModalEditar
                         row={row}
+                        editarProveedor={editarProveedor}
                         errores={errores}
-                        categoriaRef={categoriaRef}
                         proveedorRef={proveedorRef}
-                        marcaRef={marcaRef}
-                        productoRef={productoRef}
-                        stockRef={stockRef}
-                        precioListaRef={precioListaRef}
-                        precioVentaRef={precioVentaRef}
-                        editarProducto={editarProducto}
-                        editarStock={editarStock}
-                        eliminarImagen={eliminarImagen}
-                        handlerArchivos={handlerArchivos}
-                        subirImagen={subirImagen}
+                        telefonoRef={telefonoRef}
+                        direccionRef={direccionRef}
+                        descripcionRef={descripcionRef}
+                        cuitRef={cuitRef}
+                        cuentaRef={cuentaRef}
+                        mailRef={mailRef}
+
                     />
 
                     <BajaProductos
-                        bajaProducto={bajaProducto}
                         row={row}
+                        bajaProveedor={bajaProveedor}
                     />
                 </>
 
@@ -142,29 +123,15 @@ const ListadoStock = ({
         );
     }, [filterText, resetPaginationToggle]);
 
-    const conditionalRowStyles = [
-        {
-            when: row => row.stock <= 10,
-            style: {
-                backgroundColor: 'yellow',
-                color: 'black',
-                '&:hover': {
-                    cursor: 'pointer',
-                },
-            },
-
-        },
-    ];
-
 
     return (
         <Box
             p={4}
         >
             <Stack spacing={4} as={Container} maxW={'3xl'} textAlign={'center'}>
-                <Heading fontSize={'3xl'}>Registro de Productos</Heading>
+                <Heading fontSize={'3xl'}>Listado de Proveedores</Heading>
                 <Text fontSize={'xl'}>
-                    Listado de productos para la gestion de stock. Para ingresar un nuevo producto, hace click en el boton. <Link href={"/productos/nuevo"}><Button colorScheme={"blue"}>Nuevo producto</Button></Link>
+                    Listado de productos para la gestion de stock. Para ingresar un nuevo proveedor, hace click en el boton. <Link href={"/proveedores/nuevo"}><Button colorScheme={"blue"}>Nuevo Proveedor</Button></Link>
                 </Text>
             </Stack>
 
@@ -178,11 +145,10 @@ const ListadoStock = ({
                     pagination
                     subHeader
                     subHeaderComponent={subHeaderComponent}
-                    conditionalRowStyles={conditionalRowStyles}
                 />
             </Container>
         </Box>
     )
 }
 
-export default ListadoStock
+export default ListadoProveedores

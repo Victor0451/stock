@@ -5,7 +5,39 @@ export default async function handlerProductos(req, res) {
 
     const { method } = req
 
-    if (method === "PUT") {
+    if (method === "GET") {
+
+        try {
+
+            const result = await excuteQuery({
+
+                query: `SELECT * 
+                        FROM productos 
+                        WHERE estado = 1 
+                        AND stock <= 10
+                        `,
+
+            });
+
+            if (result[0]) {
+
+                res.json({
+                    msg: "Productos Encontrados",
+                    body: result
+                })
+
+            } else if (!result[0]) {
+
+                res.json("No hay productos")
+
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+
+
+    } else if (method === "PUT") {
 
         let act = {
             id: req.body.id,

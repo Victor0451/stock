@@ -22,9 +22,8 @@ const Nuevo = () => {
     const [usuario, guardarUsuario] = useState(null)
     const [errores, guardarErrores] = useState(null)
     const [imagen, guardarImagen] = useState(null);
+    const [cate, guardarCate] = useState(null)
     const [createObjectURL, setCreateObjectURL] = useState(null);
-
-
 
 
     let token = jsCookie.get("token")
@@ -36,12 +35,16 @@ const Nuevo = () => {
         } else {
             let usuario = jsCookie.get("usuario")
             guardarUsuario(usuario)
+
+            traerCategorias()
         }
 
     }, []);
 
 
     const registrarProducto = async () => {
+
+        guardarErrores(null)
 
         let prod = {
             categoria: categoriaRef.current.value,
@@ -104,7 +107,6 @@ const Nuevo = () => {
         }
     }
 
-
     const handlerArchivos = (event) => {
         if (event.target.files && event.target.files[0]) {
             const i = event.target.files[0];
@@ -151,6 +153,34 @@ const Nuevo = () => {
 
     };
 
+    const traerCategorias = async () => {
+
+        await axios.get(`/api/categorias/categoria`)
+
+            .then(res => {
+
+                if (res.data.msg === "Categorias Encontradas") {
+
+                    toastr.success("Generando listado", "ATENCION")
+
+                    guardarCate(res.data.body)
+
+                } else if (res.data.msg === "No hay Categorias") {
+
+                    toastr.warning("No hay categorias registradas", "ATENCION")
+
+                }
+
+            })
+            .catch(error => {
+                console.log(error)
+
+                toastr.danger("Ocurrio un error al registrar el producto", "ATENCION")
+            })
+
+
+    }
+
     return (
 
         <Layout>
@@ -163,12 +193,12 @@ const Nuevo = () => {
                 precioListaRef={precioListaRef}
                 precioVentaRef={precioVentaRef}
                 errores={errores}
+                cate={cate}
                 registrarProducto={registrarProducto}
                 subirImagen={subirImagen}
                 handlerArchivos={handlerArchivos}
             />
         </Layout>
-
 
     )
 }

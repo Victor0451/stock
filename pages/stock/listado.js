@@ -303,6 +303,8 @@ const Listado = () => {
 
     };
 
+  
+
     let token = jsCookie.get("token")
 
     useEffect(() => {

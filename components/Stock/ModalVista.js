@@ -110,7 +110,7 @@ const ModalVista = ({
                         </Container>
                     </ModalBody>
                     <ModalFooter>
-                        <Button onClick={onClose}>Close</Button>
+                        <Button onClick={onClose}>Cerrar</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>

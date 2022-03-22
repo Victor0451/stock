@@ -3,54 +3,104 @@ import {
     Box,
     Container,
     Heading,
-    SimpleGrid,
-    Icon,
     Text,
     Stack,
-    HStack,
-    VStack,
-    useColorModeValue
+    Alert,
+    AlertIcon,
+    AlertDescription,
+    AlertTitle,
+
 } from '@chakra-ui/react';
-import { CheckIcon } from '@chakra-ui/icons';
 
-const features = Array.apply(null, Array(8)).map(function (x, i) {
-    return {
-        id: i,
-        title: 'Lorem ipsum dolor sit amet',
-        text: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam.',
-    };
-});
+import Tarjetas from './Tarjetas';
+import ModalAlertaStock from './ModalAlertaStock';
 
-const HomeScreen = () => {
+
+const HomeScreen = ({
+    listado
+}) => {
     return (
         <Box
             p={4}
-       
+
         >
             <Stack spacing={4} as={Container} maxW={'3xl'} textAlign={'center'}>
-                <Heading fontSize={'3xl'}>This is the headline</Heading>
+                <Heading fontSize={'3xl'}>Sistema de Gestion de Stock</Heading>
                 <Text fontSize={'xl'}>
-                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-                    nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-                    sed diam voluptua.
+                    Por medio de este sistema vas a poder gestionar el stock de los productos de tu negocio,
+                    categorias de productos y proveedores. Tambien vas a poder gestionar las ventas y movimientos de caja.
                 </Text>
             </Stack>
 
-            <Container maxW={'6xl'} mt={10}>
-                <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={10}>
-                    {features.map((feature) => (
-                        <HStack key={feature.id} align={'top'}>
-                            <Box px={2}>
-                                <Icon color={"green"} as={CheckIcon} />
-                            </Box>
-                            <VStack align={'start'}>
-                                <Text fontWeight={600}>{feature.title}</Text>
-                                <Text >{feature.text}</Text>
-                            </VStack>
-                        </HStack>
-                    ))}
-                </SimpleGrid>
+
+            {listado ? (
+                <Alert
+                    status='warning'
+                    variant='subtle'
+                    flexDirection='column'
+                    alignItems='center'
+                    justifyContent='center'
+                    textAlign='center'
+                    height='200px'
+                    mt={10}
+
+                >
+                    <AlertIcon boxSize='40px' mr={0} />
+                    <AlertTitle mt={4} mb={1} fontSize='lg'>
+                        ATENCION!
+                    </AlertTitle>
+                    <AlertDescription maxWidth='sm'>
+                        Existen productos con una cantidad de stock proxima a agotarse. <ModalAlertaStock listado={listado} />
+                    </AlertDescription>
+                </Alert>
+            ) : null}
+
+
+
+
+
+
+            <Container maxW={'100%'} mt={10} className="row" justifyContent={"center"} >
+
+                <Box >
+                    <Tarjetas
+                        imagen={'/img/categoria.jpg'}
+                        titulo={"Categorias"}
+                        detalle={"Modulo de gestion de categorias"}
+                        url={"/categorias/listado"}
+                    />
+                </Box>
+
+                <Box ml="2">
+                    <Tarjetas
+                        imagen={'/img/proveedor.jpg'}
+                        titulo={"Proveedores"}
+                        detalle={"Modulo de gestion de proveedores"}
+                        url={"/proveedores/listado"}
+                    />
+                </Box>
+                <Box>
+                    <Tarjetas
+                        imagen={'/img/stock.jpg'}
+                        titulo={"Productos"}
+                        detalle={"Modulo de gestion del stock de productos"}
+                        url={"/stock/listado"}
+                    />
+                </Box>
+                <Box ml="2">
+                    <Tarjetas />
+                </Box>
+
+
+
             </Container>
+
+
+
+
+
+
+
         </Box>
     )
 }

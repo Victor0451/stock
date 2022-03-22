@@ -11,69 +11,47 @@ import {
 } from '@chakra-ui/react';
 
 import Link from 'next/link';
-import ModalVista from './ModalVista';
 import ModalEditar from './ModalEditar';
-import BajaProductos from './BajaProductos';
+import BajaCategorias from './BajaCategorias';
 
-const ListadoStock = ({
+const ListadoCategorias = ({
     listado,
     errores,
     categoriaRef,
-    proveedorRef,
-    marcaRef,
-    productoRef,
-    stockRef,
-    precioListaRef,
-    precioVentaRef,
-    editarProducto,
-    editarStock,
-    bajaProducto,
-    eliminarImagen,
-    handlerArchivos,
-    subirImagen,
+    descripcionRef,
+    editarCategoria,
+    bajaCategoria
 }) => {
 
     const columns = [
 
         {
             name: "ID",
-            selector: "idproducto",
+            selector: "idcategoria",
             sortable: true,
             grow: 0.1
         },
 
         {
-            name: "Marca",
-            selector: "marca",
+            name: "Categoria",
+            selector: "categoria",
             sortable: true,
             grow: 0.2
         },
         {
-            name: "Producto",
-            selector: "producto",
+            name: "Detalle",
+            selector: "detalle",
             sortable: true,
             grow: 0.3
         },
         {
-            name: "Precio Lista",
-            selector: "precio_lista",
+            name: "Fecha Alta",
+            selector: "fecha_alta",
             sortable: true,
             grow: 0.2
         },
 
-        {
-            name: "Precio Venta",
-            selector: "precio_venta",
-            sortable: true,
-            grow: 0.2
-        },
 
-        {
-            name: "Stock",
-            selector: "stock",
-            sortable: true,
-            grow: 0.1
-        },
         {
             name: "acciones",
             button: true,
@@ -82,28 +60,19 @@ const ListadoStock = ({
             (
                 <>
 
-                    <ModalVista row={row} />
 
                     <ModalEditar
                         row={row}
                         errores={errores}
                         categoriaRef={categoriaRef}
-                        proveedorRef={proveedorRef}
-                        marcaRef={marcaRef}
-                        productoRef={productoRef}
-                        stockRef={stockRef}
-                        precioListaRef={precioListaRef}
-                        precioVentaRef={precioVentaRef}
-                        editarProducto={editarProducto}
-                        editarStock={editarStock}
-                        eliminarImagen={eliminarImagen}
-                        handlerArchivos={handlerArchivos}
-                        subirImagen={subirImagen}
+                        descripcionRef={descripcionRef}
+                        editarCategoria={editarCategoria}
+
                     />
 
-                    <BajaProductos
-                        bajaProducto={bajaProducto}
+                    <BajaCategorias
                         row={row}
+                        bajaCategoria={bajaCategoria}
                     />
                 </>
 
@@ -142,29 +111,15 @@ const ListadoStock = ({
         );
     }, [filterText, resetPaginationToggle]);
 
-    const conditionalRowStyles = [
-        {
-            when: row => row.stock <= 10,
-            style: {
-                backgroundColor: 'yellow',
-                color: 'black',
-                '&:hover': {
-                    cursor: 'pointer',
-                },
-            },
-
-        },
-    ];
-
 
     return (
         <Box
             p={4}
         >
             <Stack spacing={4} as={Container} maxW={'3xl'} textAlign={'center'}>
-                <Heading fontSize={'3xl'}>Registro de Productos</Heading>
+                <Heading fontSize={'3xl'}>Listado de Categorias</Heading>
                 <Text fontSize={'xl'}>
-                    Listado de productos para la gestion de stock. Para ingresar un nuevo producto, hace click en el boton. <Link href={"/productos/nuevo"}><Button colorScheme={"blue"}>Nuevo producto</Button></Link>
+                    Listado de productos para la gestion de stock. Para ingresar un nuevo categoria, hace click en el boton. <Link href={"/categorias/nuevo"}><Button colorScheme={"blue"}>Nueva categoria</Button></Link>
                 </Text>
             </Stack>
 
@@ -178,11 +133,10 @@ const ListadoStock = ({
                     pagination
                     subHeader
                     subHeaderComponent={subHeaderComponent}
-                    conditionalRowStyles={conditionalRowStyles}
                 />
             </Container>
         </Box>
     )
 }
 
-export default ListadoStock
+export default ListadoCategorias
