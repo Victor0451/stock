@@ -35,19 +35,19 @@ const Layout = (props) => {
                 <title>STOCK</title>
             </Head>
 
-            {token ? (
-
-                <Navbar />
-
-            ) : null}
-
-
             <Box
                 p={4}
                 bg={useColorModeValue('gray.50', 'gray.800')}
                 color={useColorModeValue('black', 'white')}
             >
-                <main className="mb-4">{props.children}</main>
+                {token ? (
+
+                    <Navbar />
+
+                ) : null}
+
+
+                <main >{props.children}</main>
             </Box>
 
 

@@ -3,6 +3,8 @@ import Layout from '../../components/Layouts/Layout'
 import axios from 'axios'
 import FormRegistro from '../../components/Auth/FormRegistro'
 import toastr from 'toastr'
+import { registrarHistoria } from '../../utils/funciones'
+import moment from 'moment'
 
 
 const Registrar = () => {
@@ -18,11 +20,15 @@ const Registrar = () => {
 
     const registrarUsuario = async () => {
 
+        guardarErrores(null)
+
         let datos = {
             usuario: usuarioRef.current.value,
             contrasena: contrasenaRef.current.value,
             nombre: nombreRef.current.value,
-            apellido: apellidoRef.current.value
+            apellido: apellidoRef.current.value,
+            estado: 1,
+            alta: moment().format('YYYY-MM-DD HH:mm:ss')
         }
 
         if (usuarioRef.current.value === "") {
@@ -52,11 +58,20 @@ const Registrar = () => {
 
                         guardarErrores("El usuario que quiere registrar, ya existe")
 
-                    } else if (res.data === 'Usuario Registrado') {
+                    } else if (res.data.msg === 'Usuario Registrado') {
 
                         toastr.success("El usuario ingresado se registro con exito", "ATENCION")
 
-                        guardarErrores("El usuario ingresado se registro con exito")
+                        // setTimeout(() => {
+                        //     let accion = `Se registro un nuevo usuario id: '${res.data.body.insertId}' - ${datos.usuario}.`
+
+                        //     let id = `US - ${res.data.body.insertId}`
+
+                        //     registrarHistoria(accion, usuario, id)
+                        // }, 200);
+
+
+
 
                     }
 

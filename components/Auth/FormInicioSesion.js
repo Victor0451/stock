@@ -65,14 +65,8 @@ const FormInicioSesion = ({
                         ) : null}
 
                         <Stack spacing={10}>
-                            <Stack
-                                direction={{ base: 'column', sm: 'row' }}
-                                align={'start'}
-                                justify={'space-between'}>
-                                {/* <Checkbox>Remember me</Checkbox> */}
-                                <Link href='/auth/registrar' color={'blue.400'}>Registrame</Link>
-                            </Stack>
                             <Button
+                                mt={10}
                                 bg={'blue.400'}
                                 color={'white'}
                                 _hover={{
