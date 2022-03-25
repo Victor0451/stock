@@ -22,7 +22,8 @@ import {
     Text,
     AlertIcon,
     AlertDescription,
-    Image
+    Image,
+    Textarea
 } from '@chakra-ui/react'
 
 import { EditIcon, AddIcon, DeleteIcon } from '@chakra-ui/icons'
@@ -38,11 +39,14 @@ const ModalEditar = ({
     stockRef,
     precioListaRef,
     precioVentaRef,
+    descripcionRef,
+    precioMayoristaRef,
     editarProducto,
     editarStock,
     eliminarImagen,
     handlerArchivos,
     subirImagen,
+    cate
 }) => {
 
     const OverlayOne = () => (
@@ -56,7 +60,7 @@ const ModalEditar = ({
     const [overlay, setOverlay] = React.useState(<OverlayOne />)
 
 
-
+    console.log(cate)
     return (
         <>
             <Button
@@ -89,14 +93,27 @@ const ModalEditar = ({
 
                             <Box className='row' p="4" alignItems="center" justifyContent="space-between" mt="6">
 
-                                <FormControl isRequired w="xs" >
-                                    <FormLabel >Categoria</FormLabel>
-                                    <Select placeholder='Selecciona una opcion' defaultValue={row.idcategoria} ref={categoriaRef} >
-                                        <option value='1'>Option 1</option>
-                                        <option value='2'>Option 2</option>
-                                        <option value='3'>Option 3</option>
-                                    </Select>
-                                </FormControl>
+                                {
+                                    !cate ? (
+                                        <FormControl isRequired w="xs" >
+                                            <Alert className='mt-4' status='info' ariant='left-accent'>
+                                                <AlertIcon />
+                                                <AlertDescription>No hay categorias registradas.</AlertDescription>
+                                            </Alert>
+                                        </FormControl>
+                                    ) : (
+                                        <FormControl isRequired w="xs" >
+                                            <FormLabel >Categoria</FormLabel>
+                                            <Select placeholder='Selecciona una opcion' defaultValue={row.idcategoria} ref={categoriaRef}>
+                                                {
+                                                    cate.map((c, index) => (
+                                                        <option key={index} value={c.idcategoria}>{c.categoria}</option>
+                                                    ))
+                                                }
+                                            </Select>
+                                        </FormControl>
+                                    )
+                                }
 
                                 <FormControl isRequired w="xs" >
                                     <FormLabel >Proveedor</FormLabel>
@@ -126,7 +143,15 @@ const ModalEditar = ({
                                     <Input type='text' defaultValue={row.precio_venta} ref={precioVentaRef} />
                                 </FormControl>
 
+                                <FormControl isRequired w="xs" mt="6">
+                                    <FormLabel >Precio Mayorista</FormLabel>
+                                    <Input type='text' defaultValue={row.precio_mayorista} ref={precioMayoristaRef} />
+                                </FormControl>
 
+                                <FormControl w="3xl" mt="6">
+                                    <FormLabel >Descripcion</FormLabel>
+                                    <Textarea rows="3" defaultValue={row.descripcion} ref={descripcionRef} />
+                                </FormControl>
 
 
                             </Box>
@@ -192,7 +217,7 @@ const ModalEditar = ({
 
                                 <FormControl isRequired w="xs" mt="6">
                                     <FormLabel >Stock</FormLabel>
-                                    <Input type='number' value={row.stock} readOnly/>
+                                    <Input type='number' value={row.stock} readOnly />
                                 </FormControl>
 
 

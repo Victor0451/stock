@@ -25,12 +25,16 @@ const ListadoStock = ({
     stockRef,
     precioListaRef,
     precioVentaRef,
+    codigoRef,
+    descripcionRef,
+    precioMayoristaRef,
     editarProducto,
     editarStock,
     bajaProducto,
     eliminarImagen,
     handlerArchivos,
     subirImagen,
+    cate
 }) => {
 
     const columns = [
@@ -39,7 +43,14 @@ const ListadoStock = ({
             name: "ID",
             selector: "idproducto",
             sortable: true,
-            grow: 0.1
+            grow: 0
+        },
+
+        {
+            name: "Codigo",
+            selector: "codigo",
+            sortable: true,
+            grow: 0.2
         },
 
         {
@@ -82,7 +93,10 @@ const ListadoStock = ({
             (
                 <>
 
-                    <ModalVista row={row} />
+                    <ModalVista 
+                    row={row} 
+                    cate={cate}
+                    />
 
                     <ModalEditar
                         row={row}
@@ -94,11 +108,14 @@ const ListadoStock = ({
                         stockRef={stockRef}
                         precioListaRef={precioListaRef}
                         precioVentaRef={precioVentaRef}
+                        descripcionRef={descripcionRef}
+                        precioMayoristaRef={precioMayoristaRef}
                         editarProducto={editarProducto}
                         editarStock={editarStock}
                         eliminarImagen={eliminarImagen}
                         handlerArchivos={handlerArchivos}
                         subirImagen={subirImagen}
+                        cate={cate}
                     />
 
                     <BajaProductos
@@ -144,7 +161,7 @@ const ListadoStock = ({
 
     const conditionalRowStyles = [
         {
-            when: row => row.stock <= 10,
+            when: row => row.stock <= 3,
             style: {
                 backgroundColor: 'yellow',
                 color: 'black',
@@ -164,7 +181,7 @@ const ListadoStock = ({
             <Stack spacing={4} as={Container} maxW={'3xl'} textAlign={'center'}>
                 <Heading fontSize={'3xl'}>Registro de Productos</Heading>
                 <Text fontSize={'xl'}>
-                    Listado de productos para la gestion de stock. Para ingresar un nuevo producto, hace click en el boton. <Link href={"/productos/nuevo"}><Button colorScheme={"blue"}>Nuevo producto</Button></Link>
+                    Listado de productos para la gestion de stock. Para ingresar un nuevo producto, hace click en el boton. <Link href={"/stock/nuevo"}><Button colorScheme={"blue"}>Nuevo producto</Button></Link>
                 </Text>
             </Stack>
 

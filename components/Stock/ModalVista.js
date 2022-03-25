@@ -18,14 +18,17 @@ import {
     useColorModeValue,
     Alert,
     AlertDescription,
-    AlertIcon
+    AlertIcon,
+    Textarea,
+    Select
 } from '@chakra-ui/react'
 
 import { ViewIcon } from '@chakra-ui/icons'
 
 
 const ModalVista = ({
-    row
+    row,
+    cate
 }) => {
 
     const OverlayOne = () => (
@@ -63,10 +66,27 @@ const ModalVista = ({
                         <Container maxW={'6xl'} mt={10} border='1px' borderColor='gray.500' borderRadius="xl" >
                             <Box className='row' p="4" alignItems="center" justifyContent="space-between">
 
-                                <FormControl w="xs">
-                                    <FormLabel >Categoria</FormLabel>
-                                    <Input type='text' value={row.idcategoria} />
-                                </FormControl>
+                                {
+                                    !cate ? (
+                                        <FormControl isRequired w="xs" >
+                                            <Alert className='mt-4' status='info' ariant='left-accent'>
+                                                <AlertIcon />
+                                                <AlertDescription>No hay categorias registradas.</AlertDescription>
+                                            </Alert>
+                                        </FormControl>
+                                    ) : (
+                                        <FormControl isRequired w="xs" readOnly>
+                                            <FormLabel >Categoria</FormLabel>
+                                            <Select placeholder='Selecciona una opcion' value={row.idcategoria} >
+                                                {
+                                                    cate.map((c, index) => (
+                                                        <option key={index} value={c.idcategoria}>{c.categoria}</option>
+                                                    ))
+                                                }
+                                            </Select>
+                                        </FormControl>
+                                    )
+                                }
 
                                 <FormControl w="xs">
                                     <FormLabel >Proveedor</FormLabel>
@@ -89,6 +109,11 @@ const ModalVista = ({
                                 </FormControl>
 
                                 <FormControl w="xs" mt="6">
+                                    <FormLabel >Precio Mayorista</FormLabel>
+                                    <Input type='text' value={row.precio_mayorista} />
+                                </FormControl>
+
+                                <FormControl w="xs" mt="6">
                                     <FormLabel >Stock</FormLabel>
                                     <Input type='number' value={row.stock} />
                                 </FormControl>
@@ -105,6 +130,11 @@ const ModalVista = ({
                                             <Image boxSize='200px' src={`/uploads/${row.imagen}`} alt='imagen producto' />
                                         </FormControl>
                                     )}
+
+                                <FormControl w="3xl" mt="6">
+                                    <FormLabel >Descripcion</FormLabel>
+                                    <Textarea rows="3" value={row.descripcion} />
+                                </FormControl>
 
                             </Box>
                         </Container>

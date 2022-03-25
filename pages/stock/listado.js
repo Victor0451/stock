@@ -24,12 +24,17 @@ const Listado = () => {
     let stockRef = React.createRef()
     let precioListaRef = React.createRef()
     let precioVentaRef = React.createRef()
+    let codigoRef = React.createRef()
+    let descripcionRef = React.createRef()
+    let precioMayoristaRef = React.createRef()
 
     const [usuario, guardarUsuario] = useState(null)
     const [listado, guardarListado] = useState(null)
     const [errores, guardarErrores] = useState(null)
     const [imagen, guardarImagen] = useState(null);
     const [createObjectURL, setCreateObjectURL] = useState(null);
+    const [cate, guardarCate] = useState(null)
+
 
     const traerStock = async () => {
 
@@ -67,6 +72,8 @@ const Listado = () => {
             producto: productoRef.current.value,
             precio_lista: precioListaRef.current.value,
             precio_venta: precioVentaRef.current.value,
+            precio_mayorista: precioMayoristaRef.current.value,
+            descripcion: descripcionRef.current.value,
             f: 'edicion'
         }
 
@@ -303,7 +310,33 @@ const Listado = () => {
 
     };
 
-  
+    const traerCategorias = async () => {
+
+        await axios.get(`/api/categorias/categoria`)
+
+            .then(res => {
+
+                if (res.data.msg === "Categorias Encontradas") {
+
+                    guardarCate(res.data.body)
+
+                } else if (res.data.msg === "No hay Categorias") {
+
+                    toastr.warning("No hay categorias registradas", "ATENCION")
+
+                }
+
+            })
+            .catch(error => {
+                console.log(error)
+
+                toastr.danger("Ocurrio un error al registrar el producto", "ATENCION")
+            })
+
+
+    }
+
+
 
     let token = jsCookie.get("token")
 
@@ -317,6 +350,7 @@ const Listado = () => {
         }
 
         traerStock()
+        traerCategorias()
 
     }, []);
 
@@ -335,6 +369,9 @@ const Listado = () => {
                     stockRef={stockRef}
                     precioListaRef={precioListaRef}
                     precioVentaRef={precioVentaRef}
+                    codigoRef={codigoRef}
+                    descripcionRef={descripcionRef}
+                    precioMayoristaRef={precioMayoristaRef}
                     editarProducto={editarProducto}
                     editarStock={editarStock}
                     bajaProducto={bajaProducto}
@@ -342,6 +379,7 @@ const Listado = () => {
                     handlerArchivos={handlerArchivos}
                     subirImagen={subirImagen}
                     errores={errores}
+                    cate={cate}
                 />
 
             ) : (

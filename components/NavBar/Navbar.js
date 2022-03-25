@@ -246,7 +246,7 @@ const Navbar = () => {
                             </Button>
                         </Link>
 
-                        <Link href="/productos/listado" passHref>
+                        <Link href="/stock/listado" passHref>
                             <Button
                                 as="a"
                                 variant="ghost"

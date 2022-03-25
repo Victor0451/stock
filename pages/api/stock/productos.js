@@ -45,13 +45,16 @@ export default async function handlerProductos(req, res) {
             stock: req.body.stock,
             estado: req.body.estado,
             fecha_alta: req.body.fecha_alta,
+            descripcion: req.body.descripcion,
+            codigo: req.body.codigo,
+            precio_mayorista: req.body.precio_mayorista
         }
 
         try {
 
             const result = await excuteQuery({
-                query: 'INSERT INTO productos (marca, producto, stock, precio_lista, fecha_alta, idcategoria, idproveedor, precio_venta, estado) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                values: [prod.marca, prod.producto, prod.stock, prod.precio_lista, prod.fecha_alta, prod.categoria, prod.proveedor, prod.precio_venta, prod.estado],
+                query: 'INSERT INTO productos (marca, producto, stock, precio_lista, fecha_alta, idcategoria, idproveedor, precio_venta, estado, codigo, descripcion) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                values: [prod.marca, prod.producto, prod.stock, prod.precio_lista, prod.fecha_alta, prod.categoria, prod.proveedor, prod.precio_venta, prod.estado, prod.codigo, prod.descripcion, prod.precio_mayorista],
             });
 
             if (result) {
@@ -59,6 +62,8 @@ export default async function handlerProductos(req, res) {
                     msg: "Producto Registrado",
                     body: result
                 })
+
+                console.log(result)
             }
 
 
@@ -81,6 +86,8 @@ export default async function handlerProductos(req, res) {
                 producto: req.body.producto,
                 precio_lista: req.body.precio_lista,
                 precio_venta: req.body.precio_venta,
+                descripcion: req.body.descripcion,
+                precio_mayorista: req.body.precio_mayorista
             }
 
             try {
@@ -92,7 +99,9 @@ export default async function handlerProductos(req, res) {
                         marca ='${prod.marca}',                           
                         producto = '${prod.producto}',
                         precio_lista = ${prod.precio_lista},
-                        precio_venta = ${prod.precio_venta}
+                        precio_venta = ${prod.precio_venta},
+                        descripcion= '${prod.descripcion}',
+                        precio_mayorista= ${prod.precio_mayorista}
                     WHERE idproducto = ${prod.id}`
 
 

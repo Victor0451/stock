@@ -13,6 +13,7 @@ import {
     Alert,
     AlertIcon,
     AlertDescription,
+    Textarea,
 
 } from '@chakra-ui/react';
 
@@ -26,6 +27,9 @@ const FormNuevoStock = ({
     stockRef,
     precioListaRef,
     precioVentaRef,
+    codigoRef,
+    descripcionRef,
+    precioMayoristaRef,
     registrarProducto,
     errores,
     cate,
@@ -77,6 +81,11 @@ const FormNuevoStock = ({
                         </Select>
                     </FormControl>
 
+                    <FormControl isRequired w="xs" >
+                        <FormLabel >Codigo</FormLabel>
+                        <Input type='text' ref={codigoRef} />
+                    </FormControl>
+
                     <FormControl isRequired w="xs" mt="6">
                         <FormLabel >Marca</FormLabel>
                         <Input type='text' ref={marcaRef} />
@@ -98,6 +107,11 @@ const FormNuevoStock = ({
                     </FormControl>
 
                     <FormControl isRequired w="xs" mt="6">
+                        <FormLabel >Precio Mayorista</FormLabel>
+                        <Input type='text' ref={precioMayoristaRef} />
+                    </FormControl>
+
+                    <FormControl isRequired w="xs" mt="6">
                         <FormLabel >Stock</FormLabel>
                         <Input type='number' ref={stockRef} />
                     </FormControl>
@@ -105,6 +119,11 @@ const FormNuevoStock = ({
                     <FormControl isRequired w="xs" mt="6">
                         <FormLabel >Imagen</FormLabel>
                         <Input type='file' onChange={handlerArchivos} />
+                    </FormControl>
+
+                    <FormControl isRequired w="6xl" mt="6">
+                        <FormLabel >Descripcion</FormLabel>
+                        <Textarea rows={3} ref={descripcionRef} />
                     </FormControl>
 
                 </Box>

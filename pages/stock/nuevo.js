@@ -17,6 +17,9 @@ const Nuevo = () => {
     let stockRef = React.createRef()
     let precioListaRef = React.createRef()
     let precioVentaRef = React.createRef()
+    let codigoRef = React.createRef()
+    let descripcionRef = React.createRef()
+    let precioMayoristaRef = React.createRef()
 
 
     const [usuario, guardarUsuario] = useState(null)
@@ -55,7 +58,10 @@ const Nuevo = () => {
             precio_venta: precioVentaRef.current.value,
             stock: stockRef.current.value,
             estado: 1,
-            fecha_alta: moment().format("YYYY-MM-DD HH:mm:ss")
+            fecha_alta: moment().format("YYYY-MM-DD HH:mm:ss"),
+            codigo: codigoRef.current.value,
+            descripcion: descripcionRef.current.value,
+            precio_mayorista: precioMayoristaRef.current.value
         }
 
         if (prod.categoria === "") {
@@ -74,11 +80,13 @@ const Nuevo = () => {
             guardarErrores("Debes ingresar el precio se lista")
         } else if (prod.stock === "") {
             guardarErrores("Debes ingresar el stock")
+        } else if (prod.codigo === "") {
+            guardarErrores("Debes ingresar o escanear el codigo de barras del producto")
         } else {
 
             await axios.post(`/api/stock/productos`, prod)
                 .then(res => {
-
+                    console.log(req.data.body)
                     if (res.data.msg === "Producto Registrado") {
 
                         if (imagen) {
@@ -161,8 +169,6 @@ const Nuevo = () => {
 
                 if (res.data.msg === "Categorias Encontradas") {
 
-                    toastr.success("Generando listado", "ATENCION")
-
                     guardarCate(res.data.body)
 
                 } else if (res.data.msg === "No hay Categorias") {
@@ -192,6 +198,9 @@ const Nuevo = () => {
                 stockRef={stockRef}
                 precioListaRef={precioListaRef}
                 precioVentaRef={precioVentaRef}
+                codigoRef={codigoRef}
+                descripcionRef={descripcionRef}
+                precioMayoristaRef={precioMayoristaRef}
                 errores={errores}
                 cate={cate}
                 registrarProducto={registrarProducto}
