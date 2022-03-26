@@ -33,6 +33,7 @@ const FormNuevoStock = ({
     registrarProducto,
     errores,
     cate,
+    provee,
     handlerArchivos
 }) => {
     return (
@@ -72,14 +73,27 @@ const FormNuevoStock = ({
                     }
 
 
-                    <FormControl isRequired w="xs" >
-                        <FormLabel >Proveedor</FormLabel>
-                        <Select placeholder='Selecciona una opcion' ref={proveedorRef}>
-                            <option value='1'>Option 1</option>
-                            <option value='2'>Option 2</option>
-                            <option value='3'>Option 3</option>
-                        </Select>
-                    </FormControl>
+                    {
+                        !provee ? (
+                            <FormControl isRequired w="xs" >
+                                <Alert className='mt-4' status='info' ariant='left-accent'>
+                                    <AlertIcon />
+                                    <AlertDescription>No hay proveedores registradas.</AlertDescription>
+                                </Alert>
+                            </FormControl>
+                        ) : (
+                            <FormControl isRequired w="xs" >
+                                <FormLabel >Proveedores</FormLabel>
+                                <Select placeholder='Selecciona una opcion' ref={proveedorRef}>
+                                    {
+                                        provee.map((c, index) => (
+                                            <option key={index} value={c.idproveedor}>{c.proveedor}</option>
+                                        ))
+                                    }
+                                </Select>
+                            </FormControl>
+                        )
+                    }
 
                     <FormControl isRequired w="xs" >
                         <FormLabel >Codigo</FormLabel>
@@ -91,7 +105,7 @@ const FormNuevoStock = ({
                         <Input type='text' ref={marcaRef} />
                     </FormControl>
 
-                    <FormControl isRequired w="xs" >
+                    <FormControl isRequired w="xs" mt="6">
                         <FormLabel >Producto</FormLabel>
                         <Input type='text' ref={productoRef} />
                     </FormControl>

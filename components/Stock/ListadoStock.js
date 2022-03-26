@@ -25,7 +25,6 @@ const ListadoStock = ({
     stockRef,
     precioListaRef,
     precioVentaRef,
-    codigoRef,
     descripcionRef,
     precioMayoristaRef,
     editarProducto,
@@ -34,54 +33,55 @@ const ListadoStock = ({
     eliminarImagen,
     handlerArchivos,
     subirImagen,
-    cate
+    cate,
+    provee
 }) => {
 
     const columns = [
 
         {
             name: "ID",
-            selector: "idproducto",
+            selector: row => `${row.idproducto}`,
             sortable: true,
             grow: 0
         },
 
         {
             name: "Codigo",
-            selector: "codigo",
+            selector: row => `${row.codigo}`,
             sortable: true,
             grow: 0.2
         },
 
         {
             name: "Marca",
-            selector: "marca",
+            selector: row => `${row.marca}`,
             sortable: true,
             grow: 0.2
         },
         {
             name: "Producto",
-            selector: "producto",
+            selector: row => `${row.producto}`,
             sortable: true,
             grow: 0.3
         },
         {
             name: "Precio Lista",
-            selector: "precio_lista",
+            selector: row => `${row.precio_lista}`,
             sortable: true,
             grow: 0.2
         },
 
         {
             name: "Precio Venta",
-            selector: "precio_venta",
+            selector: row => `${row.precio_venta}`,
             sortable: true,
             grow: 0.2
         },
 
         {
             name: "Stock",
-            selector: "stock",
+            selector: row => `${row.stock}`,
             sortable: true,
             grow: 0.1
         },
@@ -93,9 +93,10 @@ const ListadoStock = ({
             (
                 <>
 
-                    <ModalVista 
-                    row={row} 
-                    cate={cate}
+                    <ModalVista
+                        row={row}
+                        cate={cate}
+                        provee={provee}
                     />
 
                     <ModalEditar
@@ -116,6 +117,7 @@ const ListadoStock = ({
                         handlerArchivos={handlerArchivos}
                         subirImagen={subirImagen}
                         cate={cate}
+                        provee={provee}
                     />
 
                     <BajaProductos

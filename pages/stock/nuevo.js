@@ -26,6 +26,7 @@ const Nuevo = () => {
     const [errores, guardarErrores] = useState(null)
     const [imagen, guardarImagen] = useState(null);
     const [cate, guardarCate] = useState(null)
+    const [provee, guardarProvee] = useState(null)
     const [createObjectURL, setCreateObjectURL] = useState(null);
 
 
@@ -40,6 +41,8 @@ const Nuevo = () => {
             guardarUsuario(usuario)
 
             traerCategorias()
+
+            traerProveedores()
         }
 
     }, []);
@@ -187,6 +190,32 @@ const Nuevo = () => {
 
     }
 
+    const traerProveedores = async () => {
+
+        await axios.get(`/api/proveedores/proveedor`)
+
+            .then(res => {
+
+                if (res.data.msg === "Proveedores Encontrados") {
+
+                    guardarProvee(res.data.body)
+
+                } else if (res.data.msg === "No hay Proveedores") {
+
+                    toastr.warning("No hay categorias registradas", "ATENCION")
+
+                }
+
+            })
+            .catch(error => {
+                console.log(error)
+
+                toastr.danger("Ocurrio un error al registrar el producto", "ATENCION")
+            })
+
+
+    }
+
     return (
 
         <Layout>
@@ -203,6 +232,7 @@ const Nuevo = () => {
                 precioMayoristaRef={precioMayoristaRef}
                 errores={errores}
                 cate={cate}
+                provee={provee}
                 registrarProducto={registrarProducto}
                 subirImagen={subirImagen}
                 handlerArchivos={handlerArchivos}

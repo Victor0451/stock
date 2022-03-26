@@ -28,7 +28,8 @@ import { ViewIcon } from '@chakra-ui/icons'
 
 const ModalVista = ({
     row,
-    cate
+    cate,
+    provee
 }) => {
 
     const OverlayOne = () => (
@@ -81,6 +82,28 @@ const ModalVista = ({
                                                 {
                                                     cate.map((c, index) => (
                                                         <option key={index} value={c.idcategoria}>{c.categoria}</option>
+                                                    ))
+                                                }
+                                            </Select>
+                                        </FormControl>
+                                    )
+                                }
+
+                                {
+                                    !provee ? (
+                                        <FormControl isRequired w="xs" >
+                                            <Alert className='mt-4' status='info' ariant='left-accent'>
+                                                <AlertIcon />
+                                                <AlertDescription>No hay proveedores registradas.</AlertDescription>
+                                            </Alert>
+                                        </FormControl>
+                                    ) : (
+                                        <FormControl isRequired w="xs" >
+                                            <FormLabel >Proveedores</FormLabel>
+                                            <Select placeholder='Selecciona una opcion' value={row.idproveedor}>
+                                                {
+                                                    provee.map((c, index) => (
+                                                        <option key={index} value={c.idproveedor}>{c.proveedor}</option>
                                                     ))
                                                 }
                                             </Select>

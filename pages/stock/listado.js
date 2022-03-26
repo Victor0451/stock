@@ -34,6 +34,8 @@ const Listado = () => {
     const [imagen, guardarImagen] = useState(null);
     const [createObjectURL, setCreateObjectURL] = useState(null);
     const [cate, guardarCate] = useState(null)
+    const [provee, guardarProvee] = useState(null)
+
 
 
     const traerStock = async () => {
@@ -336,6 +338,31 @@ const Listado = () => {
 
     }
 
+    const traerProveedores = async () => {
+
+        await axios.get(`/api/proveedores/proveedor`)
+
+            .then(res => {
+
+                if (res.data.msg === "Proveedores Encontrados") {
+
+                    guardarProvee(res.data.body)
+
+                } else if (res.data.msg === "No hay Proveedores") {
+
+                    toastr.warning("No hay categorias registradas", "ATENCION")
+
+                }
+
+            })
+            .catch(error => {
+                console.log(error)
+
+                toastr.danger("Ocurrio un error al registrar el producto", "ATENCION")
+            })
+
+
+    }
 
 
     let token = jsCookie.get("token")
@@ -351,6 +378,7 @@ const Listado = () => {
 
         traerStock()
         traerCategorias()
+        traerProveedores()
 
     }, []);
 
@@ -380,6 +408,7 @@ const Listado = () => {
                     subirImagen={subirImagen}
                     errores={errores}
                     cate={cate}
+                    provee={provee}
                 />
 
             ) : (

@@ -46,7 +46,8 @@ const ModalEditar = ({
     eliminarImagen,
     handlerArchivos,
     subirImagen,
-    cate
+    cate,
+    provee
 }) => {
 
     const OverlayOne = () => (
@@ -59,8 +60,6 @@ const ModalEditar = ({
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [overlay, setOverlay] = React.useState(<OverlayOne />)
 
-
-    console.log(cate)
     return (
         <>
             <Button
@@ -108,6 +107,28 @@ const ModalEditar = ({
                                                 {
                                                     cate.map((c, index) => (
                                                         <option key={index} value={c.idcategoria}>{c.categoria}</option>
+                                                    ))
+                                                }
+                                            </Select>
+                                        </FormControl>
+                                    )
+                                }
+
+                                {
+                                    !provee ? (
+                                        <FormControl isRequired w="xs" >
+                                            <Alert className='mt-4' status='info' ariant='left-accent'>
+                                                <AlertIcon />
+                                                <AlertDescription>No hay proveedores registradas.</AlertDescription>
+                                            </Alert>
+                                        </FormControl>
+                                    ) : (
+                                        <FormControl isRequired w="xs" >
+                                            <FormLabel >Proveedores</FormLabel>
+                                            <Select placeholder='Selecciona una opcion' ref={proveedorRef}>
+                                                {
+                                                    provee.map((c, index) => (
+                                                        <option key={index} value={c.idproveedor}>{c.proveedor}</option>
                                                     ))
                                                 }
                                             </Select>
