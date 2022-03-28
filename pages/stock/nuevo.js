@@ -69,9 +69,11 @@ const Nuevo = () => {
 
         if (prod.categoria === "") {
             guardarErrores("Debes elegir una categoria")
-        } else if (prod.proveedor === "") {
-            guardarErrores("Debes elegir un proveedor")
-        } else if (prod.marca === "") {
+        }
+        // else if (prod.proveedor === "") {
+        //     guardarErrores("Debes elegir un proveedor")
+        // }
+        else if (prod.marca === "") {
             guardarErrores("Debes ingresar una marca")
         } else if (prod.producto === "") {
             guardarErrores("Debes ingresar un producto")

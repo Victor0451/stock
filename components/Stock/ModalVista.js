@@ -111,10 +111,6 @@ const ModalVista = ({
                                     )
                                 }
 
-                                <FormControl w="xs">
-                                    <FormLabel >Proveedor</FormLabel>
-                                    <Input type='text' value={row.idproveedor} readOnly />
-                                </FormControl>
 
                                 <FormControl w="xs" mt="6">
                                     <FormLabel >Marca</FormLabel>

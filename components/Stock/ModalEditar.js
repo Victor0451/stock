@@ -135,15 +135,7 @@ const ModalEditar = ({
                                         </FormControl>
                                     )
                                 }
-
-                                <FormControl isRequired w="xs" >
-                                    <FormLabel >Proveedor</FormLabel>
-                                    <Select placeholder='Selecciona una opcion' defaultValue={row.idproveedor} ref={proveedorRef} >
-                                        <option value='1'>Option 1</option>
-                                        <option value='2'>Option 2</option>
-                                        <option value='3'>Option 3</option>
-                                    </Select>
-                                </FormControl>
+                               
                                 <FormControl isRequired w="xs" mt="6">
                                     <FormLabel >Marca</FormLabel>
                                     <Input type='text' defaultValue={row.marca} ref={marcaRef} />

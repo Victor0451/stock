@@ -39,21 +39,27 @@ const ModalAlertaStock = ({
     const columns = [
 
         {
-            name: "ID",
-            selector: "idproducto",
-            sortable: true,
-            grow: 0.1
-        },
-
-        {
-            name: "Marca",
-            selector: "marca",
+            name: "Codigo",
+            selector: "codigo",
             sortable: true,
             grow: 0.2
         },
+
+        // {
+        //     name: "Marca",
+        //     selector: "marca",
+        //     sortable: true,
+        //     grow: 0.2
+        // },
+        // {
+        //     name: "Producto",
+        //     selector: "producto",
+        //     sortable: true,
+        //     grow: 0.3
+        // },
         {
-            name: "Producto",
-            selector: "producto",
+            name: "Descripcion",
+            selector: "descripcion",
             sortable: true,
             grow: 0.3
         },
@@ -61,14 +67,14 @@ const ModalAlertaStock = ({
             name: "Precio Lista",
             selector: "precio_lista",
             sortable: true,
-            grow: 0.2
+            grow: 0.1
         },
 
         {
             name: "Precio Venta",
             selector: "precio_venta",
             sortable: true,
-            grow: 0.2
+            grow: 0.1
         },
 
         {

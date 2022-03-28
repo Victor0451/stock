@@ -4,9 +4,7 @@ import useAutenticacion from "../hooks/useAutenticacion";
 import UserContext from "../context/UserContext";
 import jsCookie from "js-cookie";
 import { ChakraProvider } from '@chakra-ui/react'
-
-// import "react-table/react-table.css";
-// import "react-confirm-alert/src/react-confirm-alert.css";
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 // import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 const MyApp = (props) => {
