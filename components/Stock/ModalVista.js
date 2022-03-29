@@ -14,7 +14,6 @@ import {
     FormControl,
     FormLabel,
     Input,
-    Image,
     useColorModeValue,
     Alert,
     AlertDescription,
@@ -24,7 +23,7 @@ import {
 } from '@chakra-ui/react'
 
 import { ViewIcon } from '@chakra-ui/icons'
-
+import Image from 'next/image'
 
 const ModalVista = ({
     row,
@@ -146,7 +145,7 @@ const ModalVista = ({
                                     ) : (
                                         <FormControl w="xs" mt="6">
                                             <FormLabel >Imagen del producto</FormLabel>
-                                            <Image boxSize='200px' src={`/uploads/${row.imagen}`} alt='imagen producto' />
+                                            <Image width={290} height={280} src={`/uploads/${row.imagen}`} alt='imagen producto' />
                                         </FormControl>
                                     )}
 

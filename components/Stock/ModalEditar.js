@@ -22,11 +22,13 @@ import {
     Text,
     AlertIcon,
     AlertDescription,
-    Image,
-    Textarea
+
+    Textarea,
+    VisuallyHidden
 } from '@chakra-ui/react'
 
 import { EditIcon, AddIcon, DeleteIcon } from '@chakra-ui/icons'
+import Image from 'next/image'
 
 
 const ModalEditar = ({
@@ -98,6 +100,8 @@ const ModalEditar = ({
                                             <Alert className='mt-4' status='info' ariant='left-accent'>
                                                 <AlertIcon />
                                                 <AlertDescription>No hay categorias registradas.</AlertDescription>
+                                                <VisuallyHidden><Input type={"text"} ref={categoriaRef} value="0" /></VisuallyHidden>
+
                                             </Alert>
                                         </FormControl>
                                     ) : (
@@ -120,6 +124,7 @@ const ModalEditar = ({
                                             <Alert className='mt-4' status='info' ariant='left-accent'>
                                                 <AlertIcon />
                                                 <AlertDescription>No hay proveedores registradas.</AlertDescription>
+                                                <VisuallyHidden><Input type={"text"} ref={proveedorRef} value="0" /></VisuallyHidden>
                                             </Alert>
                                         </FormControl>
                                     ) : (
@@ -135,7 +140,7 @@ const ModalEditar = ({
                                         </FormControl>
                                     )
                                 }
-                               
+
                                 <FormControl isRequired w="xs" mt="6">
                                     <FormLabel >Marca</FormLabel>
                                     <Input type='text' defaultValue={row.marca} ref={marcaRef} />
@@ -204,13 +209,13 @@ const ModalEditar = ({
                                         <FormControl isRequired w="xs" mt="6">
                                             <FormLabel >Imagen</FormLabel>
                                             <Input type='file' onChange={handlerArchivos} />
-                                            <Button mt="4" colorScheme={"blue"} size="sm" onClick={() => { subirImagen(row) }}> <AddIcon /> </Button>
+                                            <Button mt="4" colorScheme={"blue"} size="sm" onClick={() => { subirImagen(row) }}> <AddIcon /> Agregar</Button>
                                         </FormControl>
                                     ) : (
                                         <FormControl w="xs" mt="6" >
                                             <FormLabel >Imagen del producto</FormLabel>
-                                            <Image boxSize='200px' src={`/uploads/${row.imagen}`} alt='imagen producto' />
-                                            <Button mt="4" colorScheme={"red"} size="sm" onClick={() => { eliminarImagen(row) }}><DeleteIcon /></Button>
+                                            <Image width={290} height={280} src={`/uploads/${row.imagen}`} alt='imagen producto' />
+                                            <Button colorScheme={"red"} size="sm" onClick={() => { eliminarImagen(row) }}><DeleteIcon />Eliminar</Button>
                                         </FormControl>
                                     )}
 

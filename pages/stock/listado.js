@@ -66,6 +66,8 @@ const Listado = () => {
 
     const editarProducto = async (row) => {
 
+        guardarErrores(null)
+
         let prod = {
             id: row.idproducto,
             categoria: categoriaRef.current.value,
