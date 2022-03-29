@@ -15,6 +15,9 @@ module.exports = {
     'MYSQL_PASSWORD': "nokia5800",
   },
 
-  domains: ['https://stock-seven.vercel.app/', 'https://vercel.com/victor0451/stock']
+  images: {
+    domains: ['assets.vercel.com'],
+   // formats: ['image/avif', 'image/webp'],
+  },
 
 }

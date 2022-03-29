@@ -23,7 +23,7 @@ export default async (req, res) => {
                 console.log(fields, files)
                 console.log(files.file.filepath)
                 let oldPath = files.file.filepath;
-                let newPath = `./public/uploads/${files.file.originalFilename}`;
+                let newPath = `./public/${files.file.originalFilename}`;
                 mv(oldPath, newPath, function (err) {
                 });
                 res.json("Imagen Subida")
@@ -36,7 +36,7 @@ export default async (req, res) => {
 
         try {
 
-            let file = `./public/uploads/${req.query.file}`;
+            let file = `./public/${req.query.file}`;
 
             fs.unlinkSync(file);
 

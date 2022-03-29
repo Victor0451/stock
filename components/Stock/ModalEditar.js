@@ -214,7 +214,7 @@ const ModalEditar = ({
                                     ) : (
                                         <FormControl w="xs" mt="6" >
                                             <FormLabel >Imagen del producto</FormLabel>
-                                            <Image width={290} height={280} src={`/uploads/${row.imagen}`} alt='imagen producto' />
+                                            <Image width={290} height={280} src={`/${row.imagen}`} alt='imagen producto' />
                                             <Button colorScheme={"red"} size="sm" onClick={() => { eliminarImagen(row) }}><DeleteIcon />Eliminar</Button>
                                         </FormControl>
                                     )}

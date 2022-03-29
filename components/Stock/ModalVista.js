@@ -19,7 +19,8 @@ import {
     AlertDescription,
     AlertIcon,
     Textarea,
-    Select
+    Select,
+
 } from '@chakra-ui/react'
 
 import { ViewIcon } from '@chakra-ui/icons'
@@ -145,7 +146,7 @@ const ModalVista = ({
                                     ) : (
                                         <FormControl w="xs" mt="6">
                                             <FormLabel >Imagen del producto</FormLabel>
-                                            <Image width={290} height={280} src={`/uploads/${row.imagen}`} alt='imagen producto' />
+                                            <Image width={290} height={280} src={`/${row.imagen}`} alt='imagen producto' />
                                         </FormControl>
                                     )}
 
