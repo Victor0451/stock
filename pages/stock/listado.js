@@ -13,6 +13,7 @@ import {
     AlertTitle,
     AlertDescription,
 } from '@chakra-ui/react'
+import { ip } from '../../config/config'
 
 
 const Listado = () => {
@@ -213,13 +214,14 @@ const Listado = () => {
 
         let file = row.imagen
 
-        await axios.delete(`/api/stock/imagenes`, {
-            params: { file: file }
-        })
+        await axios
+            .delete(`${ip}api/archivos/stock/eliminararchivos/${file}`)
 
             .then(res => {
 
-                if (res.data === "Archivo Eliminado") {
+                if (res.status === 200) {
+
+                    toastr.success("El archivo se elimino", "ATENCION");
 
                     toastr.success("Se elimino la imagen del producto", "ATENCION")
 
@@ -272,9 +274,14 @@ const Listado = () => {
 
         body.append("file", imagen);
 
-        await axios.post(`/api/stock/imagenes/`, body)
+        await axios
+            .post(
+                `${ip}api/archivos/stock/uploadimagen`,
+                body
+            )
+
             .then(res => {
-                if (res.data === "Imagen Subida") {
+                if (res.status === 200) {
 
                     let prod = {
                         id: row.idproducto,

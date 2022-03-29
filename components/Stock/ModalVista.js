@@ -25,6 +25,7 @@ import {
 
 import { ViewIcon } from '@chakra-ui/icons'
 import Image from 'next/image'
+import { ip } from '../../config/config'
 
 const ModalVista = ({
     row,
@@ -146,7 +147,7 @@ const ModalVista = ({
                                     ) : (
                                         <FormControl w="xs" mt="6">
                                             <FormLabel >Imagen del producto</FormLabel>
-                                            <Image width={290} height={280} src={`/${row.imagen}`} alt='imagen producto' />
+                                            <Image width={290} height={280} src={`${ip}api/archivos/stock/archivo/${row.imagen}`} alt='imagen producto' />
                                         </FormControl>
                                     )}
 

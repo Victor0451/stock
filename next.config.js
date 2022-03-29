@@ -16,8 +16,8 @@ module.exports = {
   },
 
   images: {
-    domains: ['assets.vercel.com'],
-   // formats: ['image/avif', 'image/webp'],
+    domains: ['stock-seven.vercel.app', '190.231.67.172'],
+    // formats: ['image/avif', 'image/webp'],
   },
 
 }
