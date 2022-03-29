@@ -13,6 +13,8 @@ module.exports = {
     'MYSQL_DATABASE': "stock",
     'MYSQL_USER': "vlongo",
     'MYSQL_PASSWORD': "nokia5800",
-  }
+  },
+
+  domains: ['https://stock-seven.vercel.app/', 'https://vercel.com/victor0451/stock']
 
 }
