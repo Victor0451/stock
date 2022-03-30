@@ -22,13 +22,12 @@ import {
     Text,
     AlertIcon,
     AlertDescription,
-
+    Image,
     Textarea,
     VisuallyHidden
 } from '@chakra-ui/react'
 
 import { EditIcon, AddIcon, DeleteIcon } from '@chakra-ui/icons'
-import Image from 'next/image'
 import { ip } from '../../config/config'
 
 

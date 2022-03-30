@@ -1,1 +1,1 @@
-export const ip = 'http://190.231.67.172:5002/'
+export const ip = 'https://sgi.werchow.com:5001/'

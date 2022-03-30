@@ -16,7 +16,7 @@ module.exports = {
   },
 
   images: {
-    domains: ['stock-seven.vercel.app', '190.231.67.172'],
+    domains: ['stock-seven.vercel.app', '190.231.67.172', 'sgi.werchow.com'],
     // formats: ['image/avif', 'image/webp'],
   },
 

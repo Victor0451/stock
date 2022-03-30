@@ -20,11 +20,10 @@ import {
     AlertIcon,
     Textarea,
     Select,
-
+    Image
 } from '@chakra-ui/react'
 
 import { ViewIcon } from '@chakra-ui/icons'
-import Image from 'next/image'
 import { ip } from '../../config/config'
 
 const ModalVista = ({
