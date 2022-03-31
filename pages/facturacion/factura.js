@@ -7,11 +7,15 @@ import toastr from 'toastr'
 import moment from 'moment'
 import { registrarHistoria } from '../../utils/funciones'
 import { confirmAlert } from 'react-confirm-alert'; // Import
+import FacturaImpresion from '../../components/facturacion/FacturaImpresion'
 
 
 const Factura = () => {
 
+    let router = useRouter()
+
     const [usuario, guardarUsuario] = useState(null)
+    const [ventas, guardarVentas] = useState(null)
 
     let token = jsCookie.get("token")
 
@@ -23,11 +27,58 @@ const Factura = () => {
             let usuario = jsCookie.get("usuario")
             guardarUsuario(usuario)
 
+            traerVenta()
+
         }
     }, []);
 
+    const traerVenta = async () => {
+
+        await axios.get(`/api/facturacion/facturacion`, {
+            params: {
+                f: "factura",
+                idventa: router.query.idventa
+            }
+        })
+            .then(res => {
+
+                if (res.data.msg === "Ventas Encontradas") {
+                    guardarVentas(res.data.body)
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            })
+
+
+
+
+    }
+    const totalFacturacion = (arr) => {
+
+        let total = 0
+
+        for (let i = 0; i < arr.length; i++) {
+            total += arr[i].precio_venta
+
+        }
+
+        return total.toFixed(2)
+
+    }
+
+
     return (
-        <Layout>factura</Layout>
+        <Layout>
+            {!ventas ? (null) :
+                (
+                    <FacturaImpresion
+                        ventas={ventas}
+                        totalFacturacion={totalFacturacion}
+                    />
+                )}
+
+        </Layout>
     )
 }
 

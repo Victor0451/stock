@@ -8,6 +8,7 @@ import moment from 'moment'
 import { registrarHistoria } from '../../utils/funciones'
 import FormVentas from '../../components/facturacion/FormVentas'
 import { confirmAlert } from 'react-confirm-alert'; // Import
+import ModalFactura from '../../components/facturacion/ModalFactura'
 
 const Venta = () => {
 
@@ -52,8 +53,6 @@ const Venta = () => {
 
 
                     if (res.data.msg === "Producto Encontrado") {
-
-                        console.log(res.data.body[0].stock)
 
                         if (res.data.body[0].stock <= 5 && res.data.body[0].stock > 1) {
 
@@ -205,7 +204,6 @@ const Venta = () => {
 
             await axios.post(`/api/facturacion/facturacion`, ventaProd)
 
-
         }
 
         let accion = `Se registro la venta id: ${nfact}, factura n° ${venta.nfactura} con un importe de: ${venta.importe} y una cantidad de productos de: ${venta.cantidad}`
@@ -214,20 +212,34 @@ const Venta = () => {
 
         registrarHistoria(accion, usuario, id)
 
-        // confirmAlert({
-        //     title: 'ATENCION',
-        //     message: '¿Imprime factura de la venta?',
-        //     buttons: [
-        //         {
-        //             label: 'Si',
-        //             onClick: () => alert('Click Yes')
-        //         },
-        //         {
-        //             label: 'No',
-        //             onClick: () => alert('Click No')
-        //         }
-        //     ]
-        // });
+
+        confirmAlert({
+            title: 'ATENCION',
+            message: '¿Imprime factura de la venta?',
+            buttons: [
+                {
+                    label: 'Si',
+                    onClick: () => {
+
+
+                        setTimeout(() => {
+
+                            Router.push({
+                                pathname: '/facturacion/factura',
+                                query: {
+                                    idventa: ventaProd.idventa
+                                }
+                            });
+
+                        }, 500);
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => { }
+                }
+            ]
+        });
 
 
 
@@ -254,6 +266,8 @@ const Venta = () => {
                 finalizarVenta={finalizarVenta}
                 nfact={`${nfact} - ${moment().format('YYYY')}`}
             />
+
+
         </Layout>
     )
 }

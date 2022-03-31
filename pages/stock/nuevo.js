@@ -7,6 +7,7 @@ import toastr from 'toastr'
 import axios from 'axios'
 import { registrarHistoria } from '../../utils/funciones'
 import Router from 'next/router'
+import { ip } from '../../config/config'
 
 const Nuevo = () => {
 
@@ -91,7 +92,7 @@ const Nuevo = () => {
 
             await axios.post(`/api/stock/productos`, prod)
                 .then(res => {
-                    console.log(req.data.body)
+                    console.log(res.data.body)
                     if (res.data.msg === "Producto Registrado") {
 
                         if (imagen) {
@@ -135,26 +136,42 @@ const Nuevo = () => {
 
         body.append("file", imagen);
 
-        await axios.post(`/api/stock/imagenes/`, body)
+
+        await axios
+            .post(`${ip}api/archivos/stock/uploadimagen`, body)
 
             .then(res => {
 
-                if (res.data === "Imagen Subida") {
+                if (res.status === 200) {
 
-                    let prod = {
-                        id: idP,
-                        imagen: `${imagen.name}`,
-                        f: 'imagen'
-                    }
+                    axios.post(`/api/stock/imagenes/`, body)
 
-                    axios.put('/api/stock/productos', prod)
+                        .then(res => {
+
+                            if (res.data === "Imagen Subida") {
+
+                                let prod = {
+                                    id: idP,
+                                    imagen: `${imagen.name}`,
+                                    f: 'imagen'
+                                }
+
+                                axios.put('/api/stock/productos', prod)
 
 
-                    let accion = `Se subio una imagen al producto id: ${idP}.`
+                                let accion = `Se subio una imagen al producto id: ${idP}.`
 
-                    let id = `PD - ${idP}`
+                                let id = `PD - ${idP}`
 
-                    registrarHistoria(accion, usuario, id)
+                                registrarHistoria(accion, usuario, id)
+
+                            }
+                        })
+                        .catch(error => {
+                            console.log(error)
+
+                            toastr.danger("Ocurrio un error al registrar el producto", "ATENCION")
+                        })
 
                 }
             })
@@ -163,6 +180,9 @@ const Nuevo = () => {
 
                 toastr.danger("Ocurrio un error al registrar el producto", "ATENCION")
             })
+
+
+
 
     };
 

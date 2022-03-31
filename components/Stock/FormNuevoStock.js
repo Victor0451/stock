@@ -14,7 +14,7 @@ import {
     AlertIcon,
     AlertDescription,
     Textarea,
-
+    VisuallyHidden
 } from '@chakra-ui/react';
 
 import Link from 'next/link';
@@ -56,6 +56,7 @@ const FormNuevoStock = ({
                                 <Alert className='mt-4' status='info' ariant='left-accent'>
                                     <AlertIcon />
                                     <AlertDescription>No hay categorias registradas.</AlertDescription>
+                                    <VisuallyHidden><Input type={"text"} ref={categoriaRef} value="0" /></VisuallyHidden>
                                 </Alert>
                             </FormControl>
                         ) : (
@@ -79,6 +80,7 @@ const FormNuevoStock = ({
                                 <Alert className='mt-4' status='info' ariant='left-accent'>
                                     <AlertIcon />
                                     <AlertDescription>No hay proveedores registradas.</AlertDescription>
+                                    <VisuallyHidden><Input type={"text"} ref={proveedorRef} value="0" /></VisuallyHidden>
                                 </Alert>
                             </FormControl>
                         ) : (

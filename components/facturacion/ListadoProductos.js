@@ -57,6 +57,13 @@ const ListadoProductos = ({
             grow: 0.2
         },
 
+        {
+            name: "Stock Disponible",
+            selector: row => `${row.stock - 1}`,
+            sortable: true,
+            grow: 0.2
+        },
+
 
         {
             name: "acciones",

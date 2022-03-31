@@ -75,6 +75,41 @@ export default async function handlerProductos(req, res) {
                 console.log(error);
             }
 
+        } if (req.query.f && req.query.f === 'factura') {
+
+            try {
+
+                const result = await excuteQuery({
+
+                    query: `
+                    SELECT nfactura, p.codigo, p.descripcion, p.precio_venta, v.fecha, v.usuario
+                    FROM ventas as v
+                    INNER JOIN ventas_productos as vp on vp.idventa = v.idventa
+                    INNER JOIN productos as p on p.codigo = vp.codigo
+                    where v.idventa = ${req.query.idventa}           
+                
+                `,
+
+                });
+
+
+                if (result[0]) {
+
+                    res.json({
+                        msg: "Ventas Encontradas",
+                        body: result
+                    })
+
+                } else if (!result[0]) {
+
+                    res.json("No hay ventas")
+
+                }
+
+            } catch (error) {
+                console.log(error);
+            }
+
         }
 
     } else if (method === "POST") {
