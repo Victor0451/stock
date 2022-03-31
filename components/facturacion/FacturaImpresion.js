@@ -34,18 +34,20 @@ import moment from 'moment';
 
 const FacturaImpresion = ({
     ventas,
-    totalFacturacion
+    totalFacturacion,
+    imprimir
 }) => {
     return (
         <Box
             p={4}
-            bgColor="white"
-            color={"black"}
+
 
         >
             <Box
-                border="1px"
-                borderColor={"black"}
+                id="factura"
+                bgColor="white"
+                color={"black"}
+                p="4"
             >
                 <Stack spacing={4} as={Container} maxW={'3xl'} textAlign={'center'}>
                     <Heading
@@ -64,8 +66,16 @@ const FacturaImpresion = ({
                             flex='1'
                             borderRight="1px"
                             borderColor={"black"}
+                            p="4"
                         >
-                            <Text>Sistema Stock</Text>
+                            <Text>ELOY - Despensa y Polleria</Text>
+                            <Text
+                                textAlign="start"
+                                fontSize='xs'
+                            >
+                                San Martin de Porres, pasaje San Lorenzo N° 355 Catamarca
+                            </Text>
+
                         </Box>
                         <Center w='50px' >
                             <Text mt={3} >X</Text>
@@ -75,14 +85,16 @@ const FacturaImpresion = ({
                             flex='1'
                             borderLeft="1px"
                             borderColor={"black"}
+                            textAlign="start"
+                            p="4"
                         >
-                            <Text>
+                            <Text fontSize='xs'>
                                 Factura: {ventas[0].nfactura}
                             </Text>
-                            <Text>
+                            <Text fontSize='xs'>
                                 Fecha: {moment(ventas[0].fecha).format('DD/MM/YYYY HH:mm:ss')}
                             </Text>
-                            <Text>
+                            <Text fontSize='xs'>
                                 Cajero: {ventas[0].usuario}
                             </Text>
 
@@ -139,9 +151,19 @@ const FacturaImpresion = ({
             </Box>
 
 
-
-
-
+            <Stack
+                border={"1px"}
+                mt={10}
+                p="4"
+                spacing={4}
+                as={Container}
+                maxW={'3xl'}
+                textAlign={'center'}>
+                <Heading fontSize={'2xl'}>Opciones</Heading>
+                <Text fontSize={'xl'}>
+                    <Button colorScheme={"blue"} onClick={imprimir}>Imprimir</Button>
+                </Text>
+            </Stack>
 
 
         </Box >

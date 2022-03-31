@@ -88,7 +88,12 @@ const HomeScreen = ({
                     />
                 </Box>
                 <Box ml="2">
-                    <Tarjetas />
+                    <Tarjetas
+                        imagen={'/img/venta.jpg'}
+                        titulo={"Venta y Facturacion"}
+                        detalle={"Modulo de venta y facturacion"}
+                        url={"/facturacion/venta"}
+                    />
                 </Box>
 
 

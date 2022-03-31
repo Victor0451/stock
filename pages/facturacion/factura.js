@@ -3,10 +3,6 @@ import Router, { useRouter } from 'next/router'
 import jsCookie from 'js-cookie'
 import Layout from '../../components/Layouts/Layout'
 import axios from 'axios'
-import toastr from 'toastr'
-import moment from 'moment'
-import { registrarHistoria } from '../../utils/funciones'
-import { confirmAlert } from 'react-confirm-alert'; // Import
 import FacturaImpresion from '../../components/facturacion/FacturaImpresion'
 
 
@@ -54,6 +50,7 @@ const Factura = () => {
 
 
     }
+
     const totalFacturacion = (arr) => {
 
         let total = 0
@@ -67,6 +64,21 @@ const Factura = () => {
 
     }
 
+    const imprimir = () => {
+
+        let contenido = document.getElementById("factura").innerHTML;
+
+        let contenidoOrg = document.body.innerHTML;
+
+        document.body.innerHTML = contenido;
+
+        window.print();
+
+        document.body.innerHTML = contenidoOrg;
+
+        Router.replace('/facturacion/venta')
+
+    };
 
     return (
         <Layout>
@@ -75,6 +87,7 @@ const Factura = () => {
                     <FacturaImpresion
                         ventas={ventas}
                         totalFacturacion={totalFacturacion}
+                        imprimir={imprimir}
                     />
                 )}
 

@@ -9,7 +9,7 @@ import {
     Stack,
     Button,
 } from '@chakra-ui/react';
-
+import moment from 'moment';
 import Link from 'next/link';
 import ModalEditar from './ModalEditar';
 import BajaCategorias from './BajaCategorias';
@@ -27,35 +27,36 @@ const ListadoCategorias = ({
 
         {
             name: "ID",
-            selector: "idcategoria",
+            selector: row => `${row.idcategoria}`,
             sortable: true,
-            grow: 0.1
+            grow: 0.01
         },
+
 
         {
             name: "Categoria",
-            selector: "categoria",
+            selector: row => `${row.categoria}`,
             sortable: true,
-            grow: 0.2
+            grow: 0.1
         },
         {
             name: "Detalle",
-            selector: "detalle",
+            selector: row => `${row.descripcion}`,
             sortable: true,
-            grow: 0.3
+            grow: 0.4
         },
         {
             name: "Fecha Alta",
-            selector: "fecha_alta",
+            selector: row => `${moment(row.fecha_alta).format('DD/MM/YYYY ')}`,
             sortable: true,
-            grow: 0.2
+            grow: 0.1
         },
 
 
         {
             name: "acciones",
             button: true,
-            grow: 0.1,
+            grow: 0.01,
             cell: row =>
             (
                 <>

@@ -33,26 +33,26 @@ const ListadoProveedores = ({
 
         {
             name: "ID",
-            selector: "idproveedor",
+            selector: row => `${row.idproveedor}`,
             sortable: true,
             grow: 0.1
         },
 
         {
             name: "Proveedor",
-            selector: "proveedor",
+            selector: row => `${row.proveedor}`,
             sortable: true,
             grow: 0.2
         },
         {
             name: "Telefono",
-            selector: "telefono",
+            selector: row => `${row.telefono}`,
             sortable: true,
             grow: 0.3
         },
         {
             name: "Direccion",
-            selector: "direccion",
+            selector: row => `${row.direccion}`,
             sortable: true,
             grow: 0.2
         },
