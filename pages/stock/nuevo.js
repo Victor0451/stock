@@ -21,6 +21,7 @@ const Nuevo = () => {
     let codigoRef = React.createRef()
     let descripcionRef = React.createRef()
     let precioMayoristaRef = React.createRef()
+    let fechaVencimientoRef = React.createRef()
 
 
     const [usuario, guardarUsuario] = useState(null)
@@ -65,15 +66,13 @@ const Nuevo = () => {
             fecha_alta: moment().format("YYYY-MM-DD HH:mm:ss"),
             codigo: codigoRef.current.value,
             descripcion: descripcionRef.current.value,
-            precio_mayorista: precioMayoristaRef.current.value
+            precio_mayorista: precioMayoristaRef.current.value,
+            fecha_vencimiento: moment(fechaVencimientoRef.current.value).format('YYYY-MM-DD')
         }
 
         if (prod.categoria === "") {
             guardarErrores("Debes elegir una categoria")
         }
-        // else if (prod.proveedor === "") {
-        //     guardarErrores("Debes elegir un proveedor")
-        // }
         else if (prod.marca === "") {
             guardarErrores("Debes ingresar una marca")
         } else if (prod.producto === "") {
@@ -90,9 +89,10 @@ const Nuevo = () => {
             guardarErrores("Debes ingresar o escanear el codigo de barras del producto")
         } else {
 
+
             await axios.post(`/api/stock/productos`, prod)
                 .then(res => {
-                    console.log(res.data.body)
+
                     if (res.data.msg === "Producto Registrado") {
 
                         if (imagen) {
@@ -252,6 +252,7 @@ const Nuevo = () => {
                 codigoRef={codigoRef}
                 descripcionRef={descripcionRef}
                 precioMayoristaRef={precioMayoristaRef}
+                fechaVencimientoRef={fechaVencimientoRef}
                 errores={errores}
                 cate={cate}
                 provee={provee}

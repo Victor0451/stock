@@ -30,6 +30,7 @@ import {
 
 } from '@chakra-ui/react';
 import moment from 'moment';
+import Link from 'next/link';
 
 
 const FacturaImpresion = ({
@@ -162,6 +163,9 @@ const FacturaImpresion = ({
                 <Heading fontSize={'2xl'}>Opciones</Heading>
                 <Text fontSize={'xl'}>
                     <Button colorScheme={"blue"} onClick={imprimir}>Imprimir</Button>
+                    <Link href={'/facturacion/venta'}>
+                        <Button colorScheme={"green"} >Realizar Venta</Button>
+                    </Link>
                 </Text>
             </Stack>
 

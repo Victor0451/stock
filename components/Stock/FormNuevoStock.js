@@ -14,7 +14,14 @@ import {
     AlertIcon,
     AlertDescription,
     Textarea,
-    VisuallyHidden
+    VisuallyHidden,
+    NumberInput,
+    NumberInputField,
+    NumberInputStepper,
+    NumberIncrementStepper,
+    NumberDecrementStepper,
+    InputLeftAddon,
+    InputGroup
 } from '@chakra-ui/react';
 
 import Link from 'next/link';
@@ -30,6 +37,7 @@ const FormNuevoStock = ({
     codigoRef,
     descripcionRef,
     precioMayoristaRef,
+    fechaVencimientoRef,
     registrarProducto,
     errores,
     cate,
@@ -113,18 +121,41 @@ const FormNuevoStock = ({
                     </FormControl>
 
                     <FormControl isRequired w="xs" mt="6">
+                        <FormLabel >Fecha de Vencimiento</FormLabel>
+                        <Input type='date' ref={fechaVencimientoRef} />
+                    </FormControl>
+
+                    <FormControl isRequired w="xs" mt="6">
                         <FormLabel >Precio Lista</FormLabel>
-                        <Input type='text' ref={precioListaRef} />
+                        <NumberInput defaultValue={0} precision={2} step={0.2} >
+                            <NumberInputField ref={precioListaRef} />
+                            <NumberInputStepper>
+                                <NumberIncrementStepper />
+                                <NumberDecrementStepper />
+                            </NumberInputStepper>
+                        </NumberInput>
                     </FormControl>
 
                     <FormControl isRequired w="xs" mt="6">
                         <FormLabel >Precio Venta</FormLabel>
-                        <Input type='text' ref={precioVentaRef} />
+                        <NumberInput defaultValue={0} precision={2} step={0.2}  >
+                            <NumberInputField ref={precioVentaRef} />
+                            <NumberInputStepper>
+                                <NumberIncrementStepper />
+                                <NumberDecrementStepper />
+                            </NumberInputStepper>
+                        </NumberInput>
                     </FormControl>
 
                     <FormControl isRequired w="xs" mt="6">
                         <FormLabel >Precio Mayorista</FormLabel>
-                        <Input type='text' ref={precioMayoristaRef} />
+                        <NumberInput defaultValue={0} precision={2} step={0.2} >
+                            <NumberInputField ref={precioMayoristaRef} />
+                            <NumberInputStepper>
+                                <NumberIncrementStepper />
+                                <NumberDecrementStepper />
+                            </NumberInputStepper>
+                        </NumberInput>
                     </FormControl>
 
                     <FormControl isRequired w="xs" mt="6">
@@ -135,7 +166,10 @@ const FormNuevoStock = ({
                     <FormControl isRequired w="xs" mt="6">
                         <FormLabel >Imagen</FormLabel>
                         <Input type='file' onChange={handlerArchivos} />
-                    </FormControl>
+                    </FormControl>  {/* <FormControl isRequired w="xs" mt="6">
+                        <FormLabel >Precio Mayorista</FormLabel>
+                        <Input type='text' ref={precioMayoristaRef} />
+                    </FormControl> */}
 
                     <FormControl isRequired w="6xl" mt="6">
                         <FormLabel >Descripcion</FormLabel>

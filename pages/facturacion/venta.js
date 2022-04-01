@@ -36,6 +36,8 @@ const Venta = () => {
 
     const buscarProducto = async () => {
 
+        guardarErrores(null)
+
         let codigo = codigoRef.current.value
 
         if (codigo === "") {
@@ -62,6 +64,9 @@ const Venta = () => {
 
                             updateStock("menos", res.data.body[0].codigo)
 
+                            document.getElementById("v").value = ""
+
+
                         } else if (res.data.body[0].stock === 1) {
 
                             toastr.warning(`Esta es la ultima unidad de este producto`, "ATENCION")
@@ -70,24 +75,27 @@ const Venta = () => {
 
                             updateStock("menos", res.data.body[0].codigo)
 
+                            document.getElementById("v").value = ""
+
                         } else if (res.data.body[0].stock === 0) {
 
                             toastr.error(`Este producto ya no tiene stock, no se realizara la venta`, "ATENCION")
 
+                            document.getElementById("v").value = ""
+
                         } else if (res.data.body[0].stock >= 6) {
 
-                            toastr.success(`Producto facturado`, "ATENCION")
+                            //  toastr.success(`Producto facturado`, "ATENCION")
 
                             guardarListado([...listado, res.data.body[0]])
 
                             updateStock("menos", res.data.body[0].codigo)
+
+                            document.getElementById("v").value = ""
+
+
                         }
 
-
-
-                    } else if (res.data === "No hay Producto") {
-
-                        toastr.warning("No se encontro el producto", "ATENCION")
 
                     }
 

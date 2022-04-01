@@ -47,14 +47,15 @@ export default async function handlerProductos(req, res) {
             fecha_alta: req.body.fecha_alta,
             descripcion: req.body.descripcion,
             codigo: req.body.codigo,
-            precio_mayorista: req.body.precio_mayorista
+            precio_mayorista: req.body.precio_mayorista,
+            fecha_vencimiento: req.body.fecha_vencimiento
         }
 
         try {
 
             const result = await excuteQuery({
-                query: 'INSERT INTO productos (marca, producto, stock, precio_lista, fecha_alta, idcategoria, idproveedor, precio_venta, estado, codigo, descripcion) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                values: [prod.marca, prod.producto, prod.stock, prod.precio_lista, prod.fecha_alta, prod.categoria, prod.proveedor, prod.precio_venta, prod.estado, prod.codigo, prod.descripcion, prod.precio_mayorista],
+                query: 'INSERT INTO productos (marca, producto, stock, precio_lista, fecha_alta, idcategoria, idproveedor, precio_venta, estado, codigo, descripcion, precio_mayorista, fecha_vencimiento) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                values: [prod.marca, prod.producto, prod.stock, prod.precio_lista, prod.fecha_alta, prod.categoria, prod.proveedor, prod.precio_venta, prod.estado, prod.codigo, prod.descripcion, prod.precio_mayorista, prod.fecha_vencimiento],
             });
 
             if (result) {
@@ -63,7 +64,6 @@ export default async function handlerProductos(req, res) {
                     body: result
                 })
 
-                console.log(result)
             }
 
 

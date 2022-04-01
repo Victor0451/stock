@@ -54,7 +54,7 @@ const FormVentas = ({
 
                     <FormControl isRequired w="xs" mt="2" >
                         <FormLabel >Producto</FormLabel>
-                        <Input type='number' ref={codigoRef} onChange={buscarProducto} />
+                        <Input type='number' ref={codigoRef} onChange={buscarProducto} id="v"/>
                     </FormControl>
 
                     <Button mt="10" ml={4}>Buscar</Button>
