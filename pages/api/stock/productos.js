@@ -87,7 +87,8 @@ export default async function handlerProductos(req, res) {
                 precio_lista: req.body.precio_lista,
                 precio_venta: req.body.precio_venta,
                 descripcion: req.body.descripcion,
-                precio_mayorista: req.body.precio_mayorista
+                precio_mayorista: req.body.precio_mayorista,
+                fecha_vencimiento: req.body.fecha_vencimiento
             }
 
             try {
@@ -101,7 +102,8 @@ export default async function handlerProductos(req, res) {
                         precio_lista = ${prod.precio_lista},
                         precio_venta = ${prod.precio_venta},
                         descripcion= '${prod.descripcion}',
-                        precio_mayorista= ${prod.precio_mayorista}
+                        precio_mayorista= ${prod.precio_mayorista},
+                        fecha_vencimiento= '${prod.fecha_vencimiento}'
                     WHERE idproducto = ${prod.id}`
 
 

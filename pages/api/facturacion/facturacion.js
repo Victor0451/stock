@@ -123,16 +123,18 @@ export default async function handlerProductos(req, res) {
                 cantidad: req.body.cantidad,
                 fecha: req.body.fecha,
                 usuario: req.body.usuario,
+                idcliente: req.body.idcliente,
+                medio_pago: req.body.medio_pago,
+                vuelto: req.body.vuelto,
             }
-
 
 
             try {
 
                 const result = await excuteQuery({
                     query: `INSERT INTO ventas 
-                        (nfactura, importe, cantidad, fecha, usuario) 
-                        VALUES('${venta.nfactura}', ${venta.importe}, ${venta.cantidad}, '${venta.fecha}', '${venta.usuario}')`,
+                        (nfactura, importe, cantidad, fecha, usuario, idcliente, medio_pago, vuelto) 
+                        VALUES('${venta.nfactura}', ${venta.importe}, ${venta.cantidad}, '${venta.fecha}', '${venta.usuario}', ${venta.idcliente}, '${venta.medio_pago}', ${venta.vuelto})`
 
                 });
 

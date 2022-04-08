@@ -259,6 +259,34 @@ const Navbar = () => {
                                 Productos
                             </Button>
                         </Link>
+
+                        <Link href="/clientes/listado" passHref>
+                            <Button
+                                as="a"
+                                variant="ghost"
+                                aria-label="Productos"
+                                my={5}
+                                w="100%"
+                                color={"black"}
+
+                            >
+                                Clientes
+                            </Button>
+                        </Link>
+
+                        <Link href="/facturacion/venta" passHref>
+                            <Button
+                                as="a"
+                                variant="ghost"
+                                aria-label="Productos"
+                                my={5}
+                                w="100%"
+                                color={"black"}
+
+                            >
+                                Ventas y Facturacion
+                            </Button>
+                        </Link>
                     </Flex>
                 </Flex>
             </Flex>

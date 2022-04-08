@@ -24,11 +24,22 @@ const FormVentas = ({
     errores,
     listado,
     codigoRef,
+    idClienteRef,
+    formaPagoRef,
     buscarProducto,
     totalFacturacion,
     bajaProducto,
     finalizarVenta,
-    nfact
+    nfact,
+    guardarFpago,
+    fpago,
+    clientes,
+    traerClientes,
+    guardarClienSel,
+    pagoRef,
+    vuelto,
+    calcVuelto,
+    clienSel
 }) => {
     return (
         <Box
@@ -54,7 +65,7 @@ const FormVentas = ({
 
                     <FormControl isRequired w="xs" mt="2" >
                         <FormLabel >Producto</FormLabel>
-                        <Input type='number' ref={codigoRef} onChange={buscarProducto} id="v"/>
+                        <Input type='number' ref={codigoRef} onChange={buscarProducto} id="v" />
                     </FormControl>
 
                     <Button mt="10" ml={4}>Buscar</Button>
@@ -111,6 +122,17 @@ const FormVentas = ({
                                 bajaProducto={bajaProducto}
                                 finalizarVenta={finalizarVenta}
                                 nfact={nfact}
+                                idClienteRef={idClienteRef}
+                                formaPagoRef={formaPagoRef}
+                                guardarFpago={guardarFpago}
+                                fpago={fpago}
+                                clientes={clientes}
+                                traerClientes={traerClientes}
+                                guardarClienSel={guardarClienSel}
+                                pagoRef={pagoRef}
+                                vuelto={vuelto}
+                                calcVuelto={calcVuelto}
+                                clienSel={clienSel}
                             />
 
                         </Box>

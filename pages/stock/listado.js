@@ -28,6 +28,7 @@ const Listado = () => {
     let codigoRef = React.createRef()
     let descripcionRef = React.createRef()
     let precioMayoristaRef = React.createRef()
+    let fechaVencimientoRef = React.createRef()
 
     const [usuario, guardarUsuario] = useState(null)
     const [listado, guardarListado] = useState(null)
@@ -79,6 +80,7 @@ const Listado = () => {
             precio_venta: precioVentaRef.current.value,
             precio_mayorista: precioMayoristaRef.current.value,
             descripcion: descripcionRef.current.value,
+            fecha_vencimiento: moment(fechaVencimientoRef.current.value).format('YYYY-MM-DD'),
             f: 'edicion'
         }
 
@@ -409,6 +411,7 @@ const Listado = () => {
                     codigoRef={codigoRef}
                     descripcionRef={descripcionRef}
                     precioMayoristaRef={precioMayoristaRef}
+                    fechaVencimientoRef={fechaVencimientoRef}
                     editarProducto={editarProducto}
                     editarStock={editarStock}
                     bajaProducto={bajaProducto}

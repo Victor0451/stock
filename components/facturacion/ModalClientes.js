@@ -20,9 +20,14 @@ import {
 
 } from '@chakra-ui/react'
 
+import { ChevronLeftIcon } from '@chakra-ui/icons'
+import moment from 'moment';
+import toastr from 'toastr';
 
-const ModalAlertaStock = ({
-    listado
+const ModalClientes = ({
+    listado,
+    traerClientes,
+    guardarClienSel
 }) => {
 
     const OverlayOne = () => (
@@ -39,51 +44,60 @@ const ModalAlertaStock = ({
     const columns = [
 
         {
-            name: "Codigo",
-            selector: "codigo",
+            name: "ID",
+            selector: row => `${row.idcliente}`,
             sortable: true,
             grow: 0.2
         },
 
-        // {
-        //     name: "Marca",
-        //     selector: "marca",
-        //     sortable: true,
-        //     grow: 0.2
-        // },
-        // {
-        //     name: "Producto",
-        //     selector: "producto",
-        //     sortable: true,
-        //     grow: 0.3
-        // },
         {
-            name: "Descripcion",
-            selector: "descripcion",
+            name: "Cliente",
+            selector: row => `${row.apellido}, ${row.nombre}`,
             sortable: true,
             grow: 0.3
         },
         {
-            name: "Precio Lista",
-            selector: "precio_lista",
+            name: "DNI",
+            selector: row => `${row.dni}`,
             sortable: true,
-            grow: 0.1
+            grow: 0.2
         },
-
         {
-            name: "Precio Venta",
-            selector: "precio_venta",
+            name: "Alta",
+            selector: row => `${moment(row.precio_venta).format('DD/MM/YYYY')}`,
             sortable: true,
-            grow: 0.1
+            grow: 0.2
         },
-
         {
-            name: "Stock",
-            selector: "stock",
-            sortable: true,
-            grow: 0.1
-        },
+            name: "acciones",
+            button: true,
+            grow: 0.1,
+            cell: (row, index) =>
+            (
+                <>
 
+
+                    <Button
+                        row={row}
+                        index={index}
+                        colorScheme={"yellow"}
+                        size='xs'
+                        onClick={() => {
+                            guardarClienSel(row)
+                            onClose()
+                            toastr.info("El cliente fue seleccionado", "ATENCION")
+                        }}
+
+                    >
+                        <ChevronLeftIcon />
+                    </Button>
+
+
+
+                </>
+
+            )
+        }
     ];
 
     const [filterText, setFilterText] = React.useState("");
@@ -121,14 +135,16 @@ const ModalAlertaStock = ({
     return (
         <>
             <Button
-                size={"sm"}
-                colorScheme="blue"
+
+                colorScheme={"yellow"}
+                mt="8"
                 onClick={() => {
                     setOverlay(<OverlayOne />)
                     onOpen()
+                    traerClientes()
                 }}
             >
-                Ver Productos
+                Buscar Cliente
             </Button>
 
             <Modal isOpen={isOpen} onClose={onClose} size="6xl" >
@@ -171,4 +187,4 @@ const ModalAlertaStock = ({
     )
 }
 
-export default ModalAlertaStock
+export default ModalClientes

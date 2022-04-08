@@ -79,6 +79,7 @@ const HomeScreen = ({
                         url={"/proveedores/listado"}
                     />
                 </Box>
+
                 <Box>
                     <Tarjetas
                         imagen={'/img/stock.jpg'}
@@ -87,25 +88,25 @@ const HomeScreen = ({
                         url={"/stock/listado"}
                     />
                 </Box>
+
                 <Box ml="2">
                     <Tarjetas
                         imagen={'/img/venta.jpg'}
+                        titulo={"Clientes"}
+                        detalle={"Modulo de gestion de clientes"}
+                        url={"/clientes/listado"}
+                    />
+                </Box>
+
+                <Box ml="2">
+                    <Tarjetas
+                        imagen={'/img/clientes.png'}
                         titulo={"Venta y Facturacion"}
                         detalle={"Modulo de venta y facturacion"}
                         url={"/facturacion/venta"}
                     />
                 </Box>
-
-
-
             </Container>
-
-
-
-
-
-
-
         </Box>
     )
 }

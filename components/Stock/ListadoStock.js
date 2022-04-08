@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import DataTable from "react-data-table-component";
-import FilterComponent from "./FilterComponent";
+import FilterComponent from "../Layouts/FilterComponent";
 import {
     Box,
     Container,
@@ -27,6 +27,7 @@ const ListadoStock = ({
     precioVentaRef,
     descripcionRef,
     precioMayoristaRef,
+    fechaVencimientoRef,
     editarProducto,
     editarStock,
     bajaProducto,
@@ -111,6 +112,7 @@ const ListadoStock = ({
                         precioVentaRef={precioVentaRef}
                         descripcionRef={descripcionRef}
                         precioMayoristaRef={precioMayoristaRef}
+                        fechaVencimientoRef={fechaVencimientoRef}
                         editarProducto={editarProducto}
                         editarStock={editarStock}
                         eliminarImagen={eliminarImagen}

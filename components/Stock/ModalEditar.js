@@ -29,7 +29,7 @@ import {
 
 import { EditIcon, AddIcon, DeleteIcon } from '@chakra-ui/icons'
 import { ip } from '../../config/config'
-
+import moment from 'moment'
 
 const ModalEditar = ({
     row,
@@ -43,6 +43,7 @@ const ModalEditar = ({
     precioVentaRef,
     descripcionRef,
     precioMayoristaRef,
+    fechaVencimientoRef,
     editarProducto,
     editarStock,
     eliminarImagen,
@@ -130,7 +131,7 @@ const ModalEditar = ({
                                     ) : (
                                         <FormControl isRequired w="xs" >
                                             <FormLabel >Proveedores</FormLabel>
-                                            <Select placeholder='Selecciona una opcion' ref={proveedorRef}>
+                                            <Select placeholder='Selecciona una opcion' defaultValue={row.idproveedor} ref={proveedorRef}>
                                                 {
                                                     provee.map((c, index) => (
                                                         <option key={index} value={c.idproveedor}>{c.proveedor}</option>
@@ -149,6 +150,11 @@ const ModalEditar = ({
                                 <FormControl isRequired w="xs" mt="6">
                                     <FormLabel >Producto</FormLabel>
                                     <Input type='text' defaultValue={row.producto} ref={productoRef} />
+                                </FormControl>
+
+                                <FormControl isRequired w="xs" mt="6">
+                                    <FormLabel >Fecha de Vencimiento: {moment(row.fecha_vencimiento).format('DD/MM/YYYY')}</FormLabel>
+                                    <Input type='date' ref={fechaVencimientoRef} defaultValue={row.fecha_vencimiento} />
                                 </FormControl>
 
                                 <FormControl isRequired w="xs" mt="6">

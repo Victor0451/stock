@@ -1,24 +1,32 @@
 import React, { useMemo } from 'react'
 import DataTable from "react-data-table-component";
-import FilterComponent from "./FilterComponent";
+import FilterComponent from "../Layouts/FilterComponent";
 import {
     Box,
     Container,
-    Heading,
-    Text,
     Stack,
     Button,
     Stat,
     StatLabel,
     StatNumber,
-    StatHelpText,
-    StatArrow,
     StatGroup,
+    FormControl,
+    FormLabel,
+    Select,
+    NumberInput,
+    NumberInputField,
+    NumberInputStepper,
+    NumberIncrementStepper,
+    NumberDecrementStepper,
+    VisuallyHidden,
+    Input
 } from '@chakra-ui/react';
 
 import Link from 'next/link';
 import moment from 'moment';
 import BajaProductos from './BajaProductos';
+import ModalClientes from './ModalClientes';
+
 
 
 const ListadoProductos = ({
@@ -26,7 +34,18 @@ const ListadoProductos = ({
     totalFacturacion,
     bajaProducto,
     finalizarVenta,
-    nfact
+    nfact,
+    idClienteRef,
+    formaPagoRef,
+    guardarFpago,
+    fpago,
+    clientes,
+    traerClientes,
+    guardarClienSel,
+    pagoRef,
+    vuelto,
+    calcVuelto,
+    clienSel
 }) => {
 
     const columns = [
@@ -124,7 +143,7 @@ const ListadoProductos = ({
             p={4}
         >
             <Stack spacing={4} as={Container} maxW={'3xl'} textAlign={'center'} mb={10}>
-                <StatGroup>
+                <StatGroup >
                     <Stat>
                         <StatLabel>Factura N°: </StatLabel>
                         <StatNumber>{nfact}</StatNumber>
@@ -143,11 +162,89 @@ const ListadoProductos = ({
 
                     </Stat>
 
+
                     <Stat>
                         <Button colorScheme={"blue"} mt="4" onClick={finalizarVenta}>Finalizar Venta</Button>
                     </Stat>
+
+
+
+
+                </StatGroup>
+            </Stack >
+
+            <Stack spacing={4} as={Container} maxW={'3xl'} textAlign={'center'} mb={10} justifyContent="center">
+                <StatGroup >
+
+                    <FormControl ml={5} isRequired w="3xs" ref={formaPagoRef} onChange={(e) => { guardarFpago(e.target.value) }}>
+                        <FormLabel >Forma de Pago</FormLabel>
+                        <Select placeholder='Selecciona una opcion' >
+                            <option value={"Efectivo"}>Efectivo</option>
+                            <option value={"Credito"}>Credito</option>
+                            <option value={"Debito"}>Debito</option>
+                            <option value={"Cuenta"}>Cuenta Cliente</option>
+                        </Select>
+                    </FormControl>
+
+
+                    {
+                        fpago && fpago === 'Cuenta' ? (
+                            <>
+
+                                {clienSel ? (
+                                    <Stat>
+                                        <StatLabel>Cliente</StatLabel>
+                                        <StatNumber>{clienSel.dni} - {clienSel.apellido}</StatNumber>
+
+                                    </Stat>
+                                ) : null}
+
+
+
+                                <Stat>
+                                    <ModalClientes
+                                        listado={clientes}
+                                        traerClientes={traerClientes}
+                                        guardarClienSel={guardarClienSel}
+                                    />
+                                </Stat>
+                            </>
+                        ) : null
+                    }
+
+
+
+                    {fpago && fpago === 'Efectivo' ? (
+
+                        <>
+                            <FormControl ml="10" isRequired w="3xs" >
+                                <FormLabel >Pago</FormLabel>
+                                <NumberInput defaultValue={0} precision={2} step={0.2} onChange={calcVuelto}  >
+                                    <NumberInputField ref={pagoRef} />
+                                    <NumberInputStepper>
+                                        <NumberIncrementStepper />
+                                        <NumberDecrementStepper />
+                                    </NumberInputStepper>
+                                </NumberInput>
+                            </FormControl>
+
+
+                            <Stat>
+                                <StatLabel>Vuelto</StatLabel>
+                                <StatNumber>$ {vuelto}</StatNumber>
+                            </Stat>
+                        </>
+
+                    ) : <>
+                        <VisuallyHidden><Input type={"number"} ref={pagoRef} value="0" /></VisuallyHidden>
+                    </>}
+
+
+
                 </StatGroup>
             </Stack>
+
+
 
 
             <DataTable
@@ -161,7 +258,7 @@ const ListadoProductos = ({
                 subHeaderComponent={subHeaderComponent}
             />
 
-        </Box>
+        </Box >
     )
 }
 

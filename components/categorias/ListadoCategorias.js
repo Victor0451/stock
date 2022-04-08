@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import DataTable from "react-data-table-component";
-import FilterComponent from "./FilterComponent";
+import FilterComponent from "../Layouts/FilterComponent";
 import {
     Box,
     Container,
