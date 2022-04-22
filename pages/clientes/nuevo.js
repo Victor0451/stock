@@ -90,40 +90,45 @@ const nuevo = () => {
 
         const dni = dniRef.current.value
 
+        if (dni === "") {
+            toastr.info("Debes ingresar un DNI para verificar si existe", "ATENCION")
+        } else {
 
-        await axios.get('/api/clientes/cliente', {
-            params: {
-                f: 'existe',
-                id: dni
-            }
-        })
-            .then(res => {
 
-                if (res.data.msg === "Cliente Encontrado") {
+            await axios.get('/api/clientes/cliente', {
+                params: {
+                    f: 'existe',
+                    id: dni
+                }
+            })
+                .then(res => {
 
-                    if (res.data.body[0].estado === 1) {
+                    if (res.data.msg === "Cliente Encontrado") {
 
-                        toastr.warning("El cliente ya esta registrado y esta activo", "ATENCION")
+                        if (res.data.body[0].estado === 1) {
 
-                    } else if (res.data.body[0].estado === 0) {
+                            toastr.warning("El cliente ya esta registrado y esta activo", "ATENCION")
 
-                        toastr.warning("El cliente ya esta registrado y esta dado de baja", "ATENCION")
+                        } else if (res.data.body[0].estado === 0) {
+
+                            toastr.warning("El cliente ya esta registrado y esta dado de baja", "ATENCION")
+
+                        }
+
+
+                    } else if (res.data === "No hay Cliente") {
+
+                        toastr.info("Puedes registrar a este cliente", "ATENCION")
+
+                        guardarFlag(true)
 
                     }
 
-
-                } else if (res.data === "No hay Cliente") {
-
-                    toastr.info("Puedes registrar a este cliente", "ATENCION")
-
-                    guardarFlag(true)
-
-                }
-
-            })
-            .catch(error => {
-                console.log(error)
-            })
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        }
     }
 
     return (

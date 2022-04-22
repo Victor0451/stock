@@ -14,6 +14,7 @@ import Link from 'next/link';
 import ModalVista from './ModalVista';
 import ModalEditar from './ModalEditar';
 import BajaClientes from './BajaClientes';
+import ExportarPadron from './ExportarExcel';
 
 const ListadoClientes = ({
   listado,
@@ -112,11 +113,19 @@ const ListadoClientes = ({
 
     return (
 
-      <FilterComponent
-        onFilter={e => setFilterText(e.target.value)}
-        onClear={handleClear}
-        filterText={filterText}
-      />
+      <>
+        <FilterComponent
+          onFilter={e => setFilterText(e.target.value)}
+          onClear={handleClear}
+          filterText={filterText}
+        />
+
+        <ExportarPadron
+          listado={listado}
+        />
+
+      </>
+
 
     );
   }, [filterText, resetPaginationToggle]);

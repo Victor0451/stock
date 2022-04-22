@@ -8,6 +8,15 @@ import moment from 'moment'
 import { registrarHistoria } from '../../utils/funciones'
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import ListadoClientes from '../../components/clientes/ListadoClientes'
+import {
+    Alert,
+    AlertIcon,
+    AlertTitle,
+    AlertDescription,
+    Button,
+} from '@chakra-ui/react'
+import Link from 'next/link'
+
 
 const listado = () => {
 
@@ -200,18 +209,47 @@ const listado = () => {
 
     return (
         <Layout>
-            <ListadoClientes
-                listado={clientes}
-                nombreRef={nombreRef}
-                apellidoRef={apellidoRef}
-                dniRef={dniRef}
-                telefonoRef={telefonoRef}
-                direccionRef={direccionRef}
-                detalleRef={detalleRef}
-                editarCliente={editarCliente}
-                activarCliente={activarCliente}
-                bajaCliente={bajaCliente}
-            />
+            {listado ? (
+
+                <ListadoClientes
+                    listado={clientes}
+                    nombreRef={nombreRef}
+                    apellidoRef={apellidoRef}
+                    dniRef={dniRef}
+                    telefonoRef={telefonoRef}
+                    direccionRef={direccionRef}
+                    detalleRef={detalleRef}
+                    editarCliente={editarCliente}
+                    activarCliente={activarCliente}
+                    bajaCliente={bajaCliente}
+                />
+            ) : (
+
+                <Alert
+                    mt="10"
+                    mb="10"
+                    status='info'
+                    variant='subtle'
+                    flexDirection='column'
+                    alignItems='center'
+                    justifyContent='center'
+                    textAlign='center'
+                    height='200px'
+                >
+                    <AlertIcon boxSize='40px' mr={0} />
+                    <AlertTitle mt={4} mb={1} fontSize='lg'>
+                        ATENCION!
+                    </AlertTitle>
+                    <AlertDescription maxWidth='sm'>
+                        Actualmente no se encuentra ningun cliente registrado en la base de datos.
+                        <Link href={'/clientes/nuevo'}>
+                            <Button colorScheme={"blue"} mt={4}>
+                                Registrar Cliente
+                            </Button>
+                        </Link>
+                    </AlertDescription>
+                </Alert>
+            )}
         </Layout>
     )
 }

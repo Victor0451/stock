@@ -43,17 +43,26 @@ const FormNuevoCliente = ({
             </Stack>
 
             <Container maxW={'6xl'} mt={10} border='1px' borderColor='gray.500' borderRadius="xl" >
+
                 <Box className='row' p="4" alignItems="center" justifyContent="space-between">
+                    <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
+                        <FormControl isRequired w="xs"  >
+                            <FormLabel >DNI - Ingresa el dni y verifica si esta en el sistema</FormLabel>
+                            <Input type='number' ref={dniRef} />
+                        </FormControl>
 
-                    <FormControl isRequired w="xs" mt="10" >
-                        <FormLabel >DNI - Ingresa el dni y verifica si esta en el sistema</FormLabel>
-                        <Input type='number' onBlur={existeCliente} ref={dniRef} />
-                    </FormControl>
+                        <FormControl isRequired w="xs" mt="10" >
+                            <Button colorScheme={"blue"} onClick={existeCliente} >Buscar</Button>
+                        </FormControl>
 
-                    {flag === false ? null
-                        : flag === true ? (
+                    </Stack>
+                </Box>
 
-                            <>
+                {flag === false ? null
+                    : flag === true ? (
+
+                        <>
+                            <Box className='row' p="4" alignItems="center" justifyContent="space-between">
 
 
                                 <FormControl isRequired w="xs" mt="10" >
@@ -68,7 +77,7 @@ const FormNuevoCliente = ({
 
                                 <FormControl w="xs" mt="10" >
                                     <FormLabel >Telefono</FormLabel>
-                                    <Input type='number' ref={telefonoRef} />
+                                    <Input type='number' defaultValue={0} ref={telefonoRef} />
                                 </FormControl>
 
                                 <FormControl w="6xl" mt="10" >
@@ -107,12 +116,13 @@ const FormNuevoCliente = ({
                                     </Link>
 
                                 </Box>
-                            </>
+                            </Box>
+                        </>
 
-                        )
-                            : null}
+                    )
+                        : null}
 
-                </Box>
+
 
             </Container >
         </Box >

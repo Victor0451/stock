@@ -45,7 +45,10 @@ const ListadoProductos = ({
     pagoRef,
     vuelto,
     calcVuelto,
-    clienSel
+    clienSel,
+    cantidadRef,
+    preFinal,
+    cantXPrecio,
 }) => {
 
     const columns = [
@@ -77,8 +80,15 @@ const ListadoProductos = ({
         },
 
         {
+            name: "Cantidad",
+            sortable: true,
+            grow: 0.2,
+            cell: row => `${row.cantidad}`,
+        },
+
+        {
             name: "Stock Disponible",
-            selector: row => `${row.stock - 1}`,
+            selector: row => `${row.stock}`,
             sortable: true,
             grow: 0.2
         },

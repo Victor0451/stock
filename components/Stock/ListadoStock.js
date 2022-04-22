@@ -14,6 +14,7 @@ import Link from 'next/link';
 import ModalVista from './ModalVista';
 import ModalEditar from './ModalEditar';
 import BajaProductos from './BajaProductos';
+import ExportarExcel from './ExportarExcel';
 
 const ListadoStock = ({
     listado,
@@ -153,12 +154,20 @@ const ListadoStock = ({
         };
 
         return (
+            <>
+                <FilterComponent
+                    onFilter={e => setFilterText(e.target.value)}
+                    onClear={handleClear}
+                    filterText={filterText}
+                />
 
-            <FilterComponent
-                onFilter={e => setFilterText(e.target.value)}
-                onClear={handleClear}
-                filterText={filterText}
-            />
+
+
+
+                <ExportarExcel
+                    listado={listado}
+                />
+            </>
 
         );
     }, [filterText, resetPaginationToggle]);
@@ -190,6 +199,7 @@ const ListadoStock = ({
             </Stack>
 
             <Container maxW={'100%'} mt={10}  >
+
                 <DataTable
                     // title="Listado de Clientes"
                     columns={columns}
@@ -202,6 +212,8 @@ const ListadoStock = ({
                     conditionalRowStyles={conditionalRowStyles}
                 />
             </Container>
+
+
         </Box>
     )
 }

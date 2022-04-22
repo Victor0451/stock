@@ -112,7 +112,7 @@ const Navbar = () => {
                                 Proveedores
                             </MenuButton>
                             <MenuList>
-                                <Link href="/proveedores/nueva">
+                                <Link href="/proveedores/nuevo">
                                     <MenuItem>Nuevo proveedor</MenuItem>
                                 </Link>
                                 <Link href="/proveedores/listado">
@@ -144,6 +144,71 @@ const Navbar = () => {
                             </MenuList>
                         </Menu>
 
+                        <Menu>
+                            <MenuButton
+                                ml="5"
+                                variant="ghost"
+                                borderRadius="10"
+                                _hover={{
+                                    bg: "gray.300",
+                                    borderRadius: "10",
+                                    color: "black"
+                                }}
+                            >
+                                Clientes
+                            </MenuButton>
+                            <MenuList>
+                                <Link href="/clientes/nuevo">
+                                    <MenuItem>Nuevo cliente</MenuItem>
+                                </Link>
+                                <Link href="/clientes/listado">
+                                    <MenuItem>Listado de clientes</MenuItem>
+                                </Link>
+                            </MenuList>
+                        </Menu>
+
+                        <Menu>
+                            <MenuButton
+                                ml="5"
+                                variant="ghost"
+                                borderRadius="10"
+                                _hover={{
+                                    bg: "gray.300",
+                                    borderRadius: "10",
+                                    color: "black"
+                                }}
+                            >
+                                Facturacion
+                            </MenuButton>
+                            <MenuList>
+                                <Link href="/facturacion/venta">
+                                    <MenuItem>Venta</MenuItem>
+                                </Link>
+                            </MenuList>
+                        </Menu>
+
+                        <Menu>
+                            <MenuButton
+                                ml="5"
+                                variant="ghost"
+                                borderRadius="10"
+                                _hover={{
+                                    bg: "gray.300",
+                                    borderRadius: "10",
+                                    color: "black"
+                                }}
+                            >
+                                Caja
+                            </MenuButton>
+                            <MenuList>
+                                <Link href="/cajas/cierre">
+                                    <MenuItem>Cierre</MenuItem>
+                                </Link>
+                                <Link href="/cajas/listado">
+                                    <MenuItem>Cajas Cerradas</MenuItem>
+                                </Link>
+                            </MenuList>
+                        </Menu>
 
                     </Flex>
 
@@ -285,6 +350,33 @@ const Navbar = () => {
 
                             >
                                 Ventas y Facturacion
+                            </Button>
+                        </Link>
+
+                        <Link href="/cajas/cierre" passHref>
+                            <Button
+                                as="a"
+                                variant="ghost"
+                                aria-label="Productos"
+                                my={5}
+                                w="100%"
+                                color={"black"}
+
+                            >
+                                Cierre de Caja
+                            </Button>
+                        </Link>
+                        <Link href="/cajas/listado" passHref>
+                            <Button
+                                as="a"
+                                variant="ghost"
+                                aria-label="Productos"
+                                my={5}
+                                w="100%"
+                                color={"black"}
+
+                            >
+                                Listado de Cajas Cerradas
                             </Button>
                         </Link>
                     </Flex>

@@ -14,6 +14,7 @@ import Link from 'next/link';
 import ModalEditar from './ModalEditar';
 import BajaProductos from './BajaProveedores';
 import ModalVista from './ModalVista';
+import ExportarPadron from './ExportarExcel';
 
 const ListadoProveedores = ({
     listado,
@@ -113,12 +114,18 @@ const ListadoProveedores = ({
         };
 
         return (
+            <>
+                <FilterComponent
+                    onFilter={e => setFilterText(e.target.value)}
+                    onClear={handleClear}
+                    filterText={filterText}
+                />
 
-            <FilterComponent
-                onFilter={e => setFilterText(e.target.value)}
-                onClear={handleClear}
-                filterText={filterText}
-            />
+                <ExportarPadron
+                    listado={listado}
+                />
+            </>
+
 
         );
     }, [filterText, resetPaginationToggle]);

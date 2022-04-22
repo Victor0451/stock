@@ -12,7 +12,9 @@ import {
     AlertIcon,
     AlertTitle,
     AlertDescription,
+    Button
 } from '@chakra-ui/react'
+import Link from 'next/link';
 import { ip } from '../../config/config'
 
 
@@ -442,6 +444,11 @@ const Listado = () => {
                     </AlertTitle>
                     <AlertDescription maxWidth='sm'>
                         Actualmente no se encuentra ningun producto registrado en la base de datos.
+                        <Link href={'/stock/nuevo'}>
+                            <Button colorScheme={"blue"} mt={4}>
+                                Registrar Producto
+                            </Button>
+                        </Link>
                     </AlertDescription>
                 </Alert>
             )}

@@ -11,10 +11,22 @@ import { confirmAlert } from 'react-confirm-alert'; // Import
 
 const Venta = () => {
 
+    // VENTA
     let codigoRef = React.createRef()
     let formaPagoRef = React.createRef()
     let idClienteRef = React.createRef()
     let pagoRef = React.createRef()
+    let cantidadRef = React.createRef()
+
+    // CAJA
+    let turnoRef = React.createRef()
+    let saldoRef = React.createRef()
+    let importeRef = React.createRef()
+    let detalleRef = React.createRef()
+    let importeERef = React.createRef()
+    let detalleERef = React.createRef()
+
+
 
 
     const [usuario, guardarUsuario] = useState(null)
@@ -25,6 +37,8 @@ const Venta = () => {
     const [clientes, guardarClientes] = useState([])
     const [clienSel, guardarClienSel] = useState(null)
     const [vuelto, guardarVuelto] = useState(null)
+    const [estCaja, guardarEstCaja] = useState(null)
+    const [preFinal, guardarPreFinal] = useState(null)
 
 
     let token = jsCookie.get("token")
@@ -38,6 +52,8 @@ const Venta = () => {
             guardarUsuario(usuario)
 
             traerNFactura()
+
+            verificarCaja()
 
         }
     }, []);
@@ -63,42 +79,56 @@ const Venta = () => {
                 .then(res => {
 
 
+
+
                     if (res.data.msg === "Producto Encontrado") {
 
-                        if (res.data.body[0].stock <= 5 && res.data.body[0].stock > 1) {
+                        const prod = {
+                            codigo: res.data.body[0].codigo,
+                            descripcion: `${res.data.body[0].marca}, ${res.data.body[0].producto}`,
+                            precio_lista: res.data.body[0].precio_lista,
+                            precio_venta: res.data.body[0].precio_venta * cantidadRef.current.value,
+                            cantidad: cantidadRef.current.value,
+                            stock: res.data.body[0].stock - cantidadRef.current.value,
+                            codigo: res.data.body[0].codigo,
 
-                            toastr.warning(`Este producto tiene un stock bajo: ${res.data.body[0].stock} unidades`, "ATENCION")
+                        }
 
-                            guardarListado([...listado, res.data.body[0]])
 
-                            updateStock("menos", res.data.body[0].codigo)
+                        if (prod.stock <= 5 && prod.stock > 1) {
+
+                            toastr.warning(`Este producto tiene un stock bajo: ${prod.stock} unidades`, "ATENCION")
+
+                            guardarListado([...listado, prod])
+
+                            updateStock("menos", prod.codigo, prod.cantidad)
 
                             document.getElementById("v").value = ""
 
 
-                        } else if (res.data.body[0].stock === 1) {
+                        } else if (prod.stock === 1) {
 
                             toastr.warning(`Esta es la ultima unidad de este producto`, "ATENCION")
 
-                            guardarListado([...listado, res.data.body[0]])
+                            guardarListado([...listado, prod])
 
-                            updateStock("menos", res.data.body[0].codigo)
+                            updateStock("menos", prod.codigo, prod.cantidad)
 
                             document.getElementById("v").value = ""
 
-                        } else if (res.data.body[0].stock === 0) {
+                        } else if (prod.stock === 0) {
 
                             toastr.error(`Este producto ya no tiene stock, no se realizara la venta`, "ATENCION")
 
                             document.getElementById("v").value = ""
 
-                        } else if (res.data.body[0].stock >= 6) {
+                        } else if (prod.stock >= 6) {
 
                             //  toastr.success(`Producto facturado`, "ATENCION")
 
-                            guardarListado([...listado, res.data.body[0]])
+                            guardarListado([...listado, prod])
 
-                            updateStock("menos", res.data.body[0].codigo)
+                            updateStock("menos", prod.codigo, prod.cantidad)
 
                             document.getElementById("v").value = ""
 
@@ -143,11 +173,12 @@ const Venta = () => {
 
     }
 
-    const updateStock = async (f, codigo) => {
+    const updateStock = async (f, codigo, cantidad) => {
 
         const datos = {
             f: f,
-            codigo: codigo
+            codigo: codigo,
+            cantidad: cantidad
         }
 
         await axios.put(`/api/facturacion/facturacion`, datos)
@@ -186,7 +217,6 @@ const Venta = () => {
     const finalizarVenta = async () => {
 
         guardarErrores(null)
-
 
         const venta = {
             nfactura: `${nfact} - ${moment().format('YYYY')}`,
@@ -238,11 +268,12 @@ const Venta = () => {
                     console.log(error)
                 })
 
+            registrarMovimiento("V")
 
             const ventaProd = {
                 idventa: nfact,
                 codigo: "",
-                cantidad: 1,
+                cantidad: "",
                 importe: "",
                 f: "ventaProd"
             }
@@ -251,6 +282,7 @@ const Venta = () => {
             for (let i = 0; i < listado.length; i++) {
                 ventaProd.codigo = listado[i].codigo
                 ventaProd.importe = listado[i].precio_venta
+                ventaProd.cantidad = listado[i].cantidad
 
                 await axios.post(`/api/facturacion/facturacion`, ventaProd)
 
@@ -365,7 +397,193 @@ const Venta = () => {
 
     }
 
+    const verificarCaja = async () => {
 
+        let user = jsCookie.get("usuario")
+
+        await axios.get('/api/caja/caja', {
+            params: {
+                f: 'verificar',
+                user: user
+            }
+        })
+
+            .then(res => {
+
+                if (res.data.msg === "Caja Encontrada") {
+
+                    guardarEstCaja(res.data)
+
+                } else if (res.data === "No hay Caja") {
+
+                    guardarEstCaja("No")
+
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            })
+
+    }
+
+    const iniciarCaja = async () => {
+
+        const caja = {
+
+            detalle: "Saldo Inicial",
+            movimiento: "I",
+            importe: saldoRef.current.value,
+            turno: turnoRef.current.value,
+            fecha: moment().format('YYYY-MM-DD'),
+            hora: moment().format('HH:mm:ss'),
+            estado: 1,
+            anulado: 0,
+            usuario: usuario,
+            f: 'iniciar'
+        }
+
+
+        if (caja.turno === "") {
+
+            toastr.warning("Debes elegir un turno", "ATENCION")
+
+        } else if (caja.importe === "") {
+
+            toastr.warning("Debes ingresar un importe para el inicio de la caja", "ATENCION")
+
+        } else {
+
+            await axios.post('/api/caja/caja', caja)
+                .then(res => {
+
+                    if (res.data.msg === "Caja Iniciada") {
+
+                        toastr.success("Se inicio la caja correctamente", "ATENCION")
+
+                        let accion = `Se inicio caja id: ${res.data.body.insertId} con el detalle: ${caja.detalle}, saldo inicial: ${caja.importe}, turno: ${caja.turno}, fecha ${caja.fecha}.`
+
+                        let id = `CJ - ${res.data.body.insertId}`
+
+                        registrarHistoria(accion, usuario, id)
+
+                        verificarCaja()
+
+                    }
+
+                }).catch(error => {
+                    console.log(error)
+                })
+
+        }
+    }
+
+    const registrarMovimiento = (movim) => {
+
+        if (movim === "I") {
+
+            const caja = {
+
+                detalle: detalleRef.current.value,
+                movimiento: movim,
+                turno: estCaja.body[0].turno,
+                importe: importeRef.current.value,
+                fecha: moment().format('YYYY-MM-DD'),
+                hora: moment().format('HH:mm:ss'),
+                estado: 1,
+                anulado: 0,
+                usuario: usuario,
+                f: 'movimiento'
+            }
+
+            postMovimiento(caja)
+
+
+        } else if (movim === "E") {
+
+            const caja = {
+
+                detalle: detalleERef.current.value,
+                movimiento: movim,
+                turno: estCaja.body[0].turno,
+                importe: importeERef.current.value,
+                fecha: moment().format('YYYY-MM-DD'),
+                hora: moment().format('HH:mm:ss'),
+                estado: 1,
+                anulado: 0,
+                usuario: usuario,
+                f: 'movimiento'
+            }
+
+            postMovimiento(caja)
+
+
+        } else if (movim === "V") {
+
+            const caja = {
+
+                detalle: "Venta de Productos",
+                movimiento: "I",
+                turno: estCaja.body[0].turno,
+                importe: totalFacturacion(),
+                fecha: moment().format('YYYY-MM-DD'),
+                hora: moment().format('HH:mm:ss'),
+                estado: 1,
+                usuario: usuario,
+                f: 'movimiento'
+            }
+
+            postMovimiento(caja)
+
+
+        }
+
+    }
+
+    const postMovimiento = async (caja) => {
+        if (caja.detalle === "") {
+
+            toastr.warning("Debes ingresar el detalle del movimiento", "ATENCION")
+
+        } else if (caja.importe === "") {
+
+            toastr.warning("Debes ingresar el valor de movimiento", "ATENCION")
+
+        } else {
+
+            await axios.post('/api/caja/caja', caja)
+                .then(res => {
+
+                    if (res.data.msg === "Movimiento Registrado") {
+
+                        toastr.success("El movimiento se registro correctamente", "ATENCION")
+
+                        let accion = `Se registro el movimiento id: ${res.data.body.insertId} con el detalle: ${caja.detalle}, importe: ${caja.importe}, fecha ${caja.fecha}.`
+
+                        let id = `CJ - ${res.data.body.insertId}`
+
+                        registrarHistoria(accion, usuario, id)
+
+                        verificarCaja()
+
+                    }
+
+                }).catch(error => {
+                    console.log(error)
+                })
+        }
+    }
+
+    const cantXPrecio = (precio) => {
+
+        let cant = 1
+
+        let precioFinal = cant * precio
+
+        console.log(precioFinal)
+
+        guardarPreFinal(precioFinal.toFixed(2))
+
+    }
 
     return (
 
@@ -391,6 +609,19 @@ const Venta = () => {
                 vuelto={vuelto}
                 calcVuelto={calcVuelto}
                 clienSel={clienSel}
+                estCaja={estCaja}
+                usuario={usuario}
+                iniciarCaja={iniciarCaja}
+                turnoRef={turnoRef}
+                saldoRef={saldoRef}
+                importeRef={importeRef}
+                detalleRef={detalleRef}
+                importeERef={importeERef}
+                detalleERef={detalleERef}
+                registrarMovimiento={registrarMovimiento}
+                cantidadRef={cantidadRef}
+                preFinal={preFinal}
+                cantXPrecio={cantXPrecio}
             />
 
 

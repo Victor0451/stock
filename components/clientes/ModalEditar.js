@@ -100,10 +100,18 @@ const ModalEditar = ({
                                     <Input type='text' defaultValue={row.nombre} ref={nombreRef} />
                                 </FormControl>
 
-                                <FormControl w="xs" mt="10" >
-                                    <FormLabel >Telefono</FormLabel>
-                                    <Input type='number' defaultValue={row.telefono} ref={telefonoRef} />
-                                </FormControl>
+                                {!row.telefono || row.telefono === "" ? (
+                                    <FormControl w="xs" mt="10" >
+                                        <FormLabel >Telefono</FormLabel>
+                                        <Input type='number' defaultValue={0} ref={telefonoRef} />
+                                    </FormControl>
+                                ) : (
+                                    <FormControl w="xs" mt="10" >
+                                        <FormLabel >Telefono</FormLabel>
+                                        <Input type='number' defaultValue={row.telefono} ref={telefonoRef} />
+                                    </FormControl>
+                                )}
+
 
                                 <FormControl w="6xl" mt="10" >
                                     <FormLabel >Direccion</FormLabel>

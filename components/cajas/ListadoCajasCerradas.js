@@ -4,78 +4,79 @@ import FilterComponent from "../Layouts/FilterComponent";
 import {
     Box,
     Container,
-    Heading,
-    Text,
     Stack,
     Button,
+    Heading,
+    Text,
+
 } from '@chakra-ui/react';
-import moment from 'moment';
+
 import Link from 'next/link';
-import ModalEditar from './ModalEditar';
-import BajaCategorias from './BajaCategorias';
+import moment from 'moment';
+import ModalDetalleCaja from './ModalDetalleCaja';
 import ExportarPadron from './ExportarExcel';
 
-const ListadoCategorias = ({
+
+const ListadoCajasCerradas = ({
     listado,
-    errores,
-    categoriaRef,
-    descripcionRef,
-    editarCategoria,
-    bajaCategoria
+    traerDetalleCaja,
+    cajaDetalle,
+    ingresos,
+    egresos,
+    calcTotal,
+    imprimir
 }) => {
 
     const columns = [
 
         {
-            name: "ID",
-            selector: row => `${row.idcategoria}`,
+            name: "Turno",
+            selector: row => `${row.turno}`,
             sortable: true,
-            grow: 0.01
+
         },
 
 
         {
-            name: "Categoria",
-            selector: row => `${row.categoria}`,
+            name: "Fecha",
+            selector: row => `${moment(row.fecha).format('DD/MM/YYYY')}`,
             sortable: true,
-            grow: 0.1
-        },
-        {
-            name: "Detalle",
-            selector: row => `${row.descripcion}`,
-            sortable: true,
-            grow: 0.4
-        },
-        {
-            name: "Fecha Alta",
-            selector: row => `${moment(row.fecha_alta).format('DD/MM/YYYY ')}`,
-            sortable: true,
-            grow: 0.1
+
         },
 
+        {
+            name: "Importe",
+            selector: row => `${row.importe}`,
+            sortable: true,
+
+        },
+
+        {
+            name: "Operador",
+            selector: row => `${row.usuario}`,
+            sortable: true,
+
+        },
 
         {
             name: "acciones",
             button: true,
-            grow: 0.01,
-            cell: row =>
+            grow: 0.1,
+            cell: (row, index) =>
             (
                 <>
 
-
-                    <ModalEditar
+                    <ModalDetalleCaja
                         row={row}
-                        errores={errores}
-                        categoriaRef={categoriaRef}
-                        descripcionRef={descripcionRef}
-                        editarCategoria={editarCategoria}
+                        traerDetalleCaja={traerDetalleCaja}
+                        cajaDetalle={cajaDetalle}
+                        ingresos={ingresos}
+                        egresos={egresos}
+                        calcTotal={calcTotal}
+                        imprimir={imprimir}
 
                     />
 
-                    <BajaCategorias
-                        row={row}
-                        bajaCategoria={bajaCategoria}
-                    />
                 </>
 
             )
@@ -103,7 +104,6 @@ const ListadoCategorias = ({
         };
 
         return (
-
             <>
                 <FilterComponent
                     onFilter={e => setFilterText(e.target.value)}
@@ -120,19 +120,24 @@ const ListadoCategorias = ({
         );
     }, [filterText, resetPaginationToggle]);
 
-
     return (
         <Box
             p={4}
+            mt={5}
         >
-            <Stack spacing={4} as={Container} maxW={'3xl'} textAlign={'center'}>
-                <Heading fontSize={'3xl'}>Listado de Categorias</Heading>
+
+            <Stack spacing={4} mb="5" as={Container} maxW={'3xl'} textAlign={'center'}>
+                <Heading fontSize={'3xl'}>Listado de Cajas Cerradas</Heading>
                 <Text fontSize={'xl'}>
-                    Listado de productos para la gestion de stock. Para ingresar un nuevo categoria, hace click en el boton. <Link href={"/categorias/nuevo"}><Button colorScheme={"blue"}>Nueva categoria</Button></Link>
+                    Gestion de movimientos y cierre de caja.
                 </Text>
             </Stack>
 
-            <Container maxW={'100%'} mt={10}  >
+
+            <Container
+                maxW={'100%'}
+                mt={10}
+            >
                 <DataTable
                     // title="Listado de Clientes"
                     columns={columns}
@@ -144,8 +149,9 @@ const ListadoCategorias = ({
                     subHeaderComponent={subHeaderComponent}
                 />
             </Container>
-        </Box>
+
+        </Box >
     )
 }
 
-export default ListadoCategorias
+export default ListadoCajasCerradas

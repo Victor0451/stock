@@ -40,7 +40,8 @@ const FacturaImpresion = ({
 }) => {
     return (
         <Box
-            p={4}
+        width={"4xl"}
+           
 
 
         >
@@ -49,6 +50,7 @@ const FacturaImpresion = ({
                 bgColor="white"
                 color={"black"}
                 p="4"
+                //width={"4xl"}
             >
                 <Stack spacing={4} as={Container} maxW={'3xl'} textAlign={'center'}>
                     <Heading
@@ -120,6 +122,7 @@ const FacturaImpresion = ({
                                     <Th>Codigo</Th>
                                     <Th>Descripcion</Th>
                                     <Th isNumeric>Cantidad</Th>
+                                    <Th isNumeric>Pre. Unit.</Th>
                                     <Th isNumeric>Precio</Th>
 
                                 </Tr>
@@ -129,8 +132,9 @@ const FacturaImpresion = ({
                                     <Tr key={index}>
                                         <Td>{v.codigo}</Td>
                                         <Td>{v.descripcion}</Td>
-                                        <Td isNumeric>1</Td>
+                                        <Td isNumeric>{v.cantidad}</Td>
                                         <Td isNumeric>{v.precio_venta}</Td>
+                                        <Td isNumeric>{v.precio_venta * v.cantidad}</Td>
 
                                     </Tr>
                                 ))}
@@ -164,7 +168,7 @@ const FacturaImpresion = ({
                 <Text fontSize={'xl'}>
                     <Button colorScheme={"blue"} onClick={imprimir}>Imprimir</Button>
                     <Link href={'/facturacion/venta'}>
-                        <Button colorScheme={"green"} >Realizar Venta</Button>
+                        <Button ml={2} colorScheme={"green"} >Realizar Venta</Button>
                     </Link>
                 </Text>
             </Stack>

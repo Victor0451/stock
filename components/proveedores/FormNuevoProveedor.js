@@ -35,7 +35,7 @@ const FormNuevoProveedor = ({
             p={4}
         >
             <Stack spacing={4} as={Container} maxW={'3xl'} textAlign={'center'}>
-                <Heading fontSize={'3xl'}>Registro de Categorias</Heading>
+                <Heading fontSize={'3xl'}>Registro de Proveedores</Heading>
                 <Text fontSize={'xl'}>
                     Registro de proveedores de productos en el sistema de stock.
                 </Text>

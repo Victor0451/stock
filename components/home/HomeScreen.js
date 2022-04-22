@@ -57,9 +57,6 @@ const HomeScreen = ({
 
 
 
-
-
-
             <Container maxW={'100%'} mt={10} className="row" justifyContent={"center"} >
 
                 <Box >
@@ -91,7 +88,7 @@ const HomeScreen = ({
 
                 <Box ml="2">
                     <Tarjetas
-                        imagen={'/img/venta.jpg'}
+                        imagen={'/img/clientes.png'}
                         titulo={"Clientes"}
                         detalle={"Modulo de gestion de clientes"}
                         url={"/clientes/listado"}
@@ -100,7 +97,7 @@ const HomeScreen = ({
 
                 <Box ml="2">
                     <Tarjetas
-                        imagen={'/img/clientes.png'}
+                        imagen={'/img/venta.jpg'}
                         titulo={"Venta y Facturacion"}
                         detalle={"Modulo de venta y facturacion"}
                         url={"/facturacion/venta"}

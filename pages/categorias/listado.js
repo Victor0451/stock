@@ -12,7 +12,9 @@ import {
     AlertIcon,
     AlertTitle,
     AlertDescription,
+    Button,
 } from '@chakra-ui/react'
+import Link from 'next/link'
 
 const Listado = () => {
 
@@ -181,6 +183,11 @@ const Listado = () => {
                     </AlertTitle>
                     <AlertDescription maxWidth='sm'>
                         Actualmente no se encuentra ninguna categoria registrada en la base de datos.
+                        <Link href={'/categorias/nueva'}>
+                            <Button colorScheme={"blue"} mt={4}>
+                                Registrar Categoria
+                            </Button>
+                        </Link>
                     </AlertDescription>
                 </Alert>
             )}

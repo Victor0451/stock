@@ -82,7 +82,7 @@ export default async function handlerProductos(req, res) {
                 const result = await excuteQuery({
 
                     query: `
-                    SELECT nfactura, p.codigo, p.descripcion, p.precio_venta, v.fecha, v.usuario
+                    SELECT nfactura, p.codigo, p.descripcion, p.precio_venta, vp.cantidad,  v.fecha, v.usuario
                     FROM ventas as v
                     INNER JOIN ventas_productos as vp on vp.idventa = v.idventa
                     INNER JOIN productos as p on p.codigo = vp.codigo
@@ -193,7 +193,8 @@ export default async function handlerProductos(req, res) {
 
         const datos = {
             f: req.body.f,
-            codigo: req.body.codigo
+            codigo: req.body.codigo,
+            cantidad: req.body.cantidad
         }
 
         if (datos.f && datos.f === 'menos') {
@@ -203,7 +204,7 @@ export default async function handlerProductos(req, res) {
 
                 const result = await excuteQuery({
                     query: `UPDATE productos
-                        SET stock = stock - 1                             
+                        SET stock = stock - ${datos.cantidad}                            
                         WHERE codigo = '${datos.codigo}'`
 
 
@@ -232,7 +233,7 @@ export default async function handlerProductos(req, res) {
 
                 const result = await excuteQuery({
                     query: `UPDATE productos
-                        SET stock = stock + 1                             
+                        SET stock = stock + ${datos.cantidad} 
                         WHERE codigo = '${datos.codigo}'`
 
 
