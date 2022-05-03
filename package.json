@@ -1,6 +1,6 @@
 {
   "name": "stock",
-  "version": "2.0",
+  "version": "2.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -8,6 +8,10 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "author": {
+    "name": "Ing. en Sistemas Longo Victor Manuel",
+    "email": "victor.m.longo@gmail.com"
+  },  
   "dependencies": {
     "@chakra-ui/icons": "^1.1.7",
     "@chakra-ui/react": "^1.8.6",

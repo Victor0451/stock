@@ -11,32 +11,22 @@ import {
 } from '@chakra-ui/react';
 import moment from 'moment';
 import Link from 'next/link';
-import ModalVista from './ModalVista';
-import ModalEditar from './ModalEditar';
-import BajaClientes from './BajaClientes';
-import ExportarPadron from './ExportarExcel';
-import ModalCuenta from './ModalCuenta';
+import ModalDetalleCuenta from './ModalDetalleCuenta';
+import ExportarPadronCuentas from './ExportarExcelCuentas';
+import ModalPagarCuenta from './ModalPagarCuenta';
 
-const ListadoClientes = ({
+
+const ListadoCuentas = ({
   listado,
-  nombreRef,
-  apellidoRef,
-  telefonoRef,
-  direccionRef,
-  detalleRef,
-  editarCliente,
-  activarCliente,
-  bajaCliente,
-  traerCuenta,
-  cuentas,
   traerDetallesCuenta,
   detalles,
   calcTotales,
+  clien,
   calcDeduda,
   deuda,
   pagoRef,
   guardarDeduda,
-  pagoCuenta
+  pagoCuenta,
 }) => {
   const columns = [
 
@@ -48,67 +38,74 @@ const ListadoClientes = ({
     },
 
     {
-      name: "Cliente",
-      selector: row => `${row.apellido}, ${row.nombre}`,
+      name: "Fecha",
+      selector: row => `${moment(row.fecha_inicio).format('DD/MM/YYYY')}`,
       sortable: true,
       grow: 0.3
     },
+
     {
-      name: "DNI",
-      selector: row => `${row.dni}`,
+      name: "Importe",
+      selector: row => `${row.importe}`,
       sortable: true,
       grow: 0.2
     },
+
     {
-      name: "Alta",
-      selector: row => `${moment(row.precio_venta).format('DD/MM/YYYY')}`,
+      name: "Pagado",
+      selector: row => `${row.pagado}`,
       sortable: true,
       grow: 0.2
     },
+
     {
-      name: "acciones",
+      name: "Deuda",
+      selector: row => `${row.deuda}`,
+      sortable: true,
+      grow: 0.2
+    },
+
+    {
+      name: "Estado",
+      selector: row => (
+        row.estado === 1 ? (
+          <>
+            Impaga
+          </>
+        ) : row.estado === 0 ? (
+          <>
+            Pagada
+          </>
+        ) : null
+      ),
+      sortable: true,
+      grow: 0.2
+    },
+
+    {
+      name: "Acciones",
       button: true,
       grow: 0.1,
       cell: (row, index) =>
       (
         <>
 
-
-          <ModalVista
+          <ModalDetalleCuenta
             row={row}
-          />
-
-          <ModalEditar
-            row={row}
-            nombreRef={nombreRef}
-            apellidoRef={apellidoRef}
-            telefonoRef={telefonoRef}
-            direccionRef={direccionRef}
-            detalleRef={detalleRef}
-            editarCliente={editarCliente}
-            activarCliente={activarCliente}
-            bajaCliente={bajaCliente}
-          />
-
-          <BajaClientes
-            row={row}
-            bajaCliente={bajaCliente}
-          />
-
-
-          <ModalCuenta
-            row={row}
-            traerCuenta={traerCuenta}
-            cuentas={cuentas}
             traerDetallesCuenta={traerDetallesCuenta}
             detalles={detalles}
             calcTotales={calcTotales}
+          />
+
+          <ModalPagarCuenta
+            row={row}
             calcDeduda={calcDeduda}
             deuda={deuda}
             pagoRef={pagoRef}
             guardarDeduda={guardarDeduda}
             pagoCuenta={pagoCuenta}
           />
+
 
         </>
 
@@ -145,8 +142,9 @@ const ListadoClientes = ({
           filterText={filterText}
         />
 
-        <ExportarPadron
+        <ExportarPadronCuentas
           listado={listado}
+          clien={clien}
         />
 
       </>
@@ -160,9 +158,9 @@ const ListadoClientes = ({
       p={4}
     >
       <Stack spacing={4} as={Container} maxW={'3xl'} textAlign={'center'}>
-        <Heading fontSize={'3xl'}>Listado de Clientes</Heading>
+        <Heading fontSize={'3xl'}>Cuentas del Cliente</Heading>
         <Text fontSize={'xl'}>
-          Listado de Clientes registrados en el sistema. Para ingresar un nuevo cliente, hace click en el boton. <Link href={"/clientes/nuevo"}><Button colorScheme={"blue"}>Nuevo Cliente</Button></Link>
+          Historial de cuentas del cliente.
         </Text>
       </Stack>
 
@@ -182,4 +180,4 @@ const ListadoClientes = ({
   )
 }
 
-export default ListadoClientes
+export default ListadoCuentas

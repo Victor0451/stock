@@ -335,8 +335,11 @@ const Venta = () => {
             idcliente: venta.idcliente,
             idventa: nfact,
             importe: venta.importe,
+            pagado: 0,
+            deuda: 0,
             fecha_inicio: venta.fecha,
-            estado: 1
+            estado: 1,
+            f: "crear cuenta"
         }
 
         await axios.post(`/api/cuentas/cuenta`, cuenta)

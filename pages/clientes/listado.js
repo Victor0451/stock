@@ -26,10 +26,14 @@ const listado = () => {
     let telefonoRef = React.createRef()
     let direccionRef = React.createRef()
     let detalleRef = React.createRef()
+    let pagoRef = React.createRef()
 
     const [usuario, guardarUsuario] = useState(null)
     const [clientes, guardarClientes] = useState([])
+    const [cuentas, guardarCuentas] = useState([])
+    const [detalles, guardarDetalles] = useState([])
     const [errores, guardarErrores] = useState(null)
+    const [deuda, guardarDeduda] = useState(0)
 
     let token = jsCookie.get("token")
 
@@ -207,6 +211,231 @@ const listado = () => {
 
     }
 
+    const traerCuenta = async (row) => {
+
+        await axios.get(`/api/cuentas/cuenta`,
+            {
+                params: {
+                    f: 'cuenta',
+                    idcliente: row.idcliente
+                }
+            })
+            .then(res => {
+
+                if (res.data.msg === 'Cuenta Encontrada') {
+
+                    guardarCuentas(res.data.body)
+
+                    toastr.success("Cuentas encontradas, generando listado", "ATENCION")
+
+                } else if (res.data === 'No Hay Cuenta') {
+
+                    guardarCuentas([])
+
+                    toastr.info("El cliente no posee cuentas activas", "ATENCION")
+
+                }
+
+            })
+            .catch(error => {
+                console.log(error)
+            })
+
+
+    }
+
+    const traerDetallesCuenta = async (row) => {
+
+        await axios.get(`/api/cuentas/cuenta`,
+            {
+                params: {
+                    f: 'detalle cuenta',
+                    idventa: row.idventa
+                }
+            })
+            .then(res => {
+
+
+                if (res.data.msg === 'Detalle Encontrado') {
+
+                    guardarDetalles(res.data.body)
+
+
+
+                } else if (res.data === 'No Hay Detalles') {
+
+                    guardarDetalles([])
+
+                }
+
+            })
+            .catch(error => {
+                console.log(error)
+            })
+
+    }
+
+    const calcTotales = (arr, f) => {
+
+        let total = 0
+
+        if (f === 'cant') {
+
+            for (let i = 0; i < arr.length; i++) {
+
+                total += parseInt(arr[i].cantidad)
+
+            }
+
+            return total
+
+        } else if (f === 'imp') {
+
+            for (let i = 0; i < arr.length; i++) {
+
+                total += parseFloat(arr[i].importe)
+
+            }
+
+            return total.toFixed(2)
+
+        }
+
+    }
+
+    const pagoCuenta = async (row) => {
+
+        const pagos = {
+            idcuenta: row.idcuenta,
+            fecha: moment().format('YYYY-MM-DD'),
+            hora: moment().format('HH:mm:ss'),
+            importe: pagoRef.current.value,
+            estado: 1,
+            usuario: usuario,
+            f: 'pago cuenta'
+        }
+
+        await axios.post('/api/cuentas/cuenta', pagos)
+            .then(res => {
+
+                if (res.data.msg === "Pago Registrado") {
+
+                    toastr.success("Se registro el pago de la cuenta correctamente", "ATENCION")
+
+                    let accion = `Se registro el pago a la cuenta id: ${row.idcuenta}, de un importe: $ ${pagos.importe}.`
+
+                    let id = `CT - ${row.idcuenta}`
+
+                    registrarHistoria(accion, usuario, id)
+
+                    actTotales(row)
+
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            })
+
+    }
+
+    const actTotales = async (row) => {
+
+
+        let cuenta = {
+            idcuenta: row.idcuenta,
+            pagado: pagoRef.current.value,
+            deuda: deuda,
+            f: "act valores",
+            estado: ""
+        }
+
+        let importe = row.importe - row.pagado
+
+        let pago = parseFloat(pagoRef.current.value)
+
+        if (pago === importe) {
+
+
+            cuenta.estado = 0
+
+            await axios.put('/api/cuentas/cuenta', cuenta)
+                .then(res => {
+
+
+                    if (res.data.msg === "Importes Actualizados") {
+
+                        toastr.info("Importes de la cuenta actualizados", "ATENCION")
+
+                        let accion = `Se cancelo la cuenta id: ${row.idcuenta}.`
+
+                        let id = `CT - ${row.idcuenta}`
+
+                        registrarHistoria(accion, usuario, id)
+
+                        traerCuenta(row)
+
+                    }
+
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+
+        } else if (pago < importe) {
+
+            cuenta.estado = 1
+
+            await axios.put('/api/cuentas/cuenta', cuenta)
+                .then(res => {
+
+
+                    if (res.data.msg === "Importes Actualizados") {
+
+                        toastr.info("Importes de la cuenta actualizados", "ATENCION")
+
+                        traerCuenta(row)
+
+                    }
+
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        }
+
+
+
+    }
+
+    const calcDeduda = (importe) => {
+
+        let pago = parseFloat(pagoRef.current.value)
+
+        if (pago === 0 || pago === "" || pagoRef.current.value === NaN) {
+
+            guardarDeduda(importe)
+
+        } else {
+
+            if (pago === importe) {
+
+                toastr.info("Con este pago estas cancelando la cuenta", "ATENCION")
+
+            } else if (pago > importe) {
+
+                toastr.warning("Estas registrando un pago mayor al importe de la deuda", "ATENCION")
+
+            }
+
+            let deu = parseFloat(importe) - parseFloat(pago)
+
+            guardarDeduda(deu)
+
+
+        }
+
+    }
+
     return (
         <Layout>
             {listado ? (
@@ -222,6 +451,16 @@ const listado = () => {
                     editarCliente={editarCliente}
                     activarCliente={activarCliente}
                     bajaCliente={bajaCliente}
+                    traerCuenta={traerCuenta}
+                    cuentas={cuentas}
+                    traerDetallesCuenta={traerDetallesCuenta}
+                    detalles={detalles}
+                    calcTotales={calcTotales}
+                    calcDeduda={calcDeduda}
+                    deuda={deuda}
+                    pagoRef={pagoRef}
+                    guardarDeduda={guardarDeduda}
+                    pagoCuenta={pagoCuenta}
                 />
             ) : (
 
