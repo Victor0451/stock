@@ -115,3 +115,12 @@
   }
 }
 
+
+
+@media print {
+  /*css aquí */
+  .print {
+    size: A4;
+    column-width: 4px !important;
+  }
+}

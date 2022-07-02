@@ -30,6 +30,7 @@ import {
 import { EditIcon, AddIcon, DeleteIcon } from '@chakra-ui/icons'
 import { ip } from '../../config/config'
 import moment from 'moment'
+import BarCode from './BarCode'
 
 const ModalEditar = ({
     row,
@@ -175,6 +176,11 @@ const ModalEditar = ({
                                 <FormControl w="3xl" mt="6">
                                     <FormLabel >Descripcion</FormLabel>
                                     <Textarea rows="3" defaultValue={row.descripcion} ref={descripcionRef} />
+                                </FormControl>
+
+                                <FormControl w="xs" mt="6">
+                                    <FormLabel >Codigo</FormLabel>
+                                    <BarCode codigo={row.codigo} />
                                 </FormControl>
 
 

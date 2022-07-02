@@ -89,7 +89,7 @@ const Navbar = () => {
                                 Categorias
                             </MenuButton>
                             <MenuList>
-                                <Link href="/categorias/nueva">
+                                <Link href="/categorias/nuevo">
                                     <MenuItem>Nueva categoria</MenuItem>
                                 </Link>
                                 <Link href="/categorias/listado">
@@ -207,6 +207,27 @@ const Navbar = () => {
                                 <Link href="/cajas/listado">
                                     <MenuItem>Cajas Cerradas</MenuItem>
                                 </Link>
+                            </MenuList>
+                        </Menu>
+
+                        <Menu>
+                            <MenuButton
+                                ml="5"
+                                variant="ghost"
+                                borderRadius="10"
+                                _hover={{
+                                    bg: "gray.300",
+                                    borderRadius: "10",
+                                    color: "black"
+                                }}
+                            >
+                                Informes
+                            </MenuButton>
+                            <MenuList>
+                                <Link href="/informes/informes">
+                                    <MenuItem>Administracion</MenuItem>
+                                </Link>
+
                             </MenuList>
                         </Menu>
 
@@ -377,6 +398,20 @@ const Navbar = () => {
 
                             >
                                 Listado de Cajas Cerradas
+                            </Button>
+                        </Link>
+
+                        <Link href="/informes/informes" passHref>
+                            <Button
+                                as="a"
+                                variant="ghost"
+                                aria-label="Productos"
+                                my={5}
+                                w="100%"
+                                color={"black"}
+
+                            >
+                                Informes
                             </Button>
                         </Link>
                     </Flex>

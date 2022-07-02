@@ -15,6 +15,8 @@ import ModalVista from './ModalVista';
 import ModalEditar from './ModalEditar';
 import BajaProductos from './BajaProductos';
 import ExportarExcel from './ExportarExcel';
+import ModalCodigo from './ModalCodigo';
+import ModalGenerarCodigos from './ModalGenerarCodigos';
 
 const ListadoStock = ({
     listado,
@@ -36,7 +38,8 @@ const ListadoStock = ({
     handlerArchivos,
     subirImagen,
     cate,
-    provee
+    provee,
+    imprimir
 }) => {
 
     const columns = [
@@ -88,12 +91,17 @@ const ListadoStock = ({
             grow: 0.1
         },
         {
-            name: "acciones",
+            name: "Acciones",
             button: true,
             grow: 0.1,
             cell: row =>
             (
                 <>
+
+                    <ModalCodigo
+                        row={row}
+                        imprimir={imprimir}
+                    />
 
                     <ModalVista
                         row={row}
@@ -196,6 +204,9 @@ const ListadoStock = ({
                 <Text fontSize={'xl'}>
                     Listado de productos para la gestion de stock. Para ingresar un nuevo producto, hace click en el boton. <Link href={"/stock/nuevo"}><Button colorScheme={"blue"}>Nuevo producto</Button></Link>
                 </Text>
+                <Text fontSize={'xl'}>
+                    Imprimir codigo de barra a todos los productos. <ModalGenerarCodigos listado={listado} imprimir={imprimir} />
+                </Text>
             </Stack>
 
             <Container maxW={'100%'} mt={10}  >
@@ -212,6 +223,9 @@ const ListadoStock = ({
                     conditionalRowStyles={conditionalRowStyles}
                 />
             </Container>
+
+
+
 
 
         </Box>

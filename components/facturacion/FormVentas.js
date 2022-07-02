@@ -1,3 +1,5 @@
+import React, { useEffect } from 'react';
+
 import {
     Box,
     Container,
@@ -63,6 +65,13 @@ const FormVentas = ({
     preFinal,
     cantXPrecio,
 }) => {
+
+    useEffect(() => {
+
+        codigoRef.current.focus();
+
+    }, [])
+
 
     return (
         <Box

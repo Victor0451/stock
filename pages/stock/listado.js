@@ -88,8 +88,6 @@ const Listado = () => {
 
         if (prod.categoria === "") {
             guardarErrores("Debes elegir una categoria")
-        } else if (prod.proveedor === "") {
-            guardarErrores("Debes elegir un proveedor")
         } else if (prod.marca === "") {
             guardarErrores("Debes ingresar una marca")
         } else if (prod.producto === "") {
@@ -377,6 +375,22 @@ const Listado = () => {
 
     }
 
+    const imprimir = (div) => {
+
+        let contenido = document.getElementById(`${div}`).innerHTML;
+
+        let contenidoOrg = document.body.innerHTML;
+
+        document.body.innerHTML = contenido;
+
+        window.print();
+
+        document.body.innerHTML = contenidoOrg;
+
+        Router.reload()
+
+    };
+
 
     let token = jsCookie.get("token")
 
@@ -423,6 +437,7 @@ const Listado = () => {
                     errores={errores}
                     cate={cate}
                     provee={provee}
+                    imprimir={imprimir}
                 />
 
             ) : (
