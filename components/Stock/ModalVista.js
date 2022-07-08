@@ -25,7 +25,7 @@ import {
 
 import { ViewIcon } from '@chakra-ui/icons'
 import { ip } from '../../config/config'
-import BarCode from './BarCode'
+import BarCode2 from './BarCode2'
 
 const ModalVista = ({
     row,
@@ -140,7 +140,7 @@ const ModalVista = ({
 
                                 <FormControl w="xs" mt="6">
                                     <FormLabel >Codigo</FormLabel>
-                                    <BarCode codigo={row.codigo} />
+                                    <BarCode2 codigo={row.codigo} />
                                 </FormControl>
 
                                 {!row.imagen || row.imagen === ' ' ?

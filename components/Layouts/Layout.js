@@ -11,7 +11,10 @@ import {
 
 const Layout = (props) => {
 
+
     let token = jsCookie.get("token")
+
+
 
     return (
         <div className="">
@@ -35,20 +38,45 @@ const Layout = (props) => {
                 <title>STOCK</title>
             </Head>
 
-            <Box
-                p={4}
-                bg={useColorModeValue('gray.50', 'gray.800')}
-                color={useColorModeValue('black', 'white')}
-            >
-                {token ? (
-
-                    <Navbar />
-
-                ) : null}
 
 
-                <main >{props.children}</main>
-            </Box>
+            {props.f === "codigo" ?
+                (
+                    <Box
+                        p={2}
+                        bg={useColorModeValue('gray.50', 'gray.800')}
+                        color={useColorModeValue('black', 'white')}
+                    >
+
+
+
+                        <main >{props.children}</main>
+                    </Box>
+                )
+                : (
+                    <Box
+                        p={4}
+                        bg={useColorModeValue('gray.50', 'gray.800')}
+                        color={useColorModeValue('black', 'white')}
+                    >
+                        {token ? (
+
+                            (<Navbar />)
+
+
+
+                        ) : null}
+
+
+                        <main >{props.children}</main>
+                    </Box>
+                )
+
+            }
+
+
+
+
 
 
 

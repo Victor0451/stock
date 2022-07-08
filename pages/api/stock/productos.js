@@ -7,30 +7,66 @@ export default async function handlerProductos(req, res) {
 
     if (method === "GET") {
 
+        if (req.query.f && req.query.f === 'todo') {
 
-        try {
+            try {
 
-            const result = await excuteQuery({
+                const result = await excuteQuery({
 
-                query: 'SELECT * FROM productos WHERE estado = 1 ',
+                    query: 'SELECT * FROM productos WHERE estado = 1 ',
 
-            });
+                });
 
-            if (result[0]) {
+                if (result[0]) {
 
-                res.json({
-                    msg: "Productos Encontrados",
-                    body: result
-                })
+                    res.json({
+                        msg: "Productos Encontrados",
+                        body: result
+                    })
 
-            } else if (!result[0]) {
+                } else if (!result[0]) {
 
-                res.json("No hay productos")
+                    res.json("No hay productos")
 
+                }
+
+            } catch (error) {
+                console.log(error);
             }
 
-        } catch (error) {
-            console.log(error);
+        } else if (req.query.f && req.query.f === 'cate') {
+
+            try {
+
+                const result = await excuteQuery({
+
+                    query:
+                        `
+                    SELECT * 
+                    FROM productos 
+                    WHERE estado = 1
+                    AND idcategoria = ${req.query.id}
+                    ` ,
+
+                });
+
+                if (result[0]) {
+
+                    res.json({
+                        msg: "Productos Encontrados",
+                        body: result
+                    })
+
+                } else if (!result[0]) {
+
+                    res.json("No hay productos")
+
+                }
+
+            } catch (error) {
+                console.log(error);
+            }
+
         }
 
     } else if (method === "POST") {

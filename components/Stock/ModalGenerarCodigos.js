@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import {
     Modal,
     ModalOverlay,
@@ -24,6 +24,7 @@ import {
 } from '@chakra-ui/react'
 
 import BarCode from './BarCode'
+import ReactToPrint from 'react-to-print';
 
 const ModalGenerarCodigos = ({
     listado,
@@ -40,7 +41,7 @@ const ModalGenerarCodigos = ({
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [overlay, setOverlay] = React.useState(<OverlayOne />)
 
-
+    let componentRef = useRef()
 
     return (
         <>
@@ -61,27 +62,27 @@ const ModalGenerarCodigos = ({
                     <ModalCloseButton />
                     <ModalBody>
 
-                        <Container maxW={'6xl'} mt={10} border='1px' borderColor='gray.500' borderRadius="xl" >
+                        <Container maxW={'6xl'} mt={10} border='1px' borderColor='gray.500' borderRadius="xl"  >
 
-                            <Box className='row ' id="codigo" >
+                            <ReactToPrint
+                                trigger={() => {
 
+                                    // NOTE: could just as easily return <SomeComponent />. Do NOT pass an `onClick` prop
+                                    // to the root node of the returned component as it will be overwritten.
+                                    return <a href="#">Print this out!</a>;
+
+                                }}
+                                content={() => componentRef}
+                            />
+
+                            <Box className='row ' id="codigo"  >
                                 {
-                                    listado.map((l, index) => (
-
-                                        <FormControl
-                                            size='xs'
-                                            className='col-md-4 '
-                                            // border={"1px"} 
-                                            // borderColor={"black"} 
-                                            p="2"
-                                            mt={2} >
-                                            {/* <FormLabel color={"black"}  >{l.marca} - {l.producto} ${l.precio_venta}</FormLabel> */}
-                                            <BarCode codigo={l.codigo} />
-                                            {/* <FormLabel color={"black"} >${l.precio_venta}</FormLabel> */}
-                                        </FormControl>
-
-                                    ))
+                                    listado ? (
+                                        <BarCode arr={listado} ref={componentRef}/>
+                                    ) : null
                                 }
+
+
 
                             </Box>
                         </Container>

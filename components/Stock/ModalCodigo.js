@@ -25,7 +25,7 @@ import {
 
 import { LinkIcon } from '@chakra-ui/icons'
 import { ip } from '../../config/config'
-import BarCode from './BarCode'
+import BarCode2 from './BarCode2'
 
 const ModalCodigo = ({
     row,
@@ -74,7 +74,7 @@ const ModalCodigo = ({
                                     <FormLabel >Codigo</FormLabel>
                                     <div id="codigo">
                                         <FormLabel color={"black"}  >{row.marca} - {row.producto}</FormLabel>
-                                        <BarCode codigo={row.codigo} />
+                                        <BarCode2 codigo={row.codigo} />
                                         <FormLabel color={"black"} >${row.precio_venta}</FormLabel>
                                     </div>
                                 </FormControl>

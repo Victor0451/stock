@@ -8,20 +8,31 @@ import {
     Text,
     Stack,
     Button,
+    //  Link,
+    FormControl,
+    Alert,
+    AlertDescription,
+    AlertIcon,
+    VisuallyHidden,
+    Input,
+    FormLabel,
+    Select
 } from '@chakra-ui/react';
 
-import Link from 'next/link';
+//import Link from 'next/link';
 import ModalVista from './ModalVista';
 import ModalEditar from './ModalEditar';
 import BajaProductos from './BajaProductos';
 import ExportarExcel from './ExportarExcel';
 import ModalCodigo from './ModalCodigo';
-import ModalGenerarCodigos from './ModalGenerarCodigos';
+import Link from 'next/link';
+
 
 const ListadoStock = ({
     listado,
     errores,
     categoriaRef,
+    cateCodRef,
     proveedorRef,
     marcaRef,
     productoRef,
@@ -39,7 +50,9 @@ const ListadoStock = ({
     subirImagen,
     cate,
     provee,
-    imprimir
+    imprimir,
+    traerStock2,
+    idCate
 }) => {
 
     const columns = [
@@ -204,8 +217,49 @@ const ListadoStock = ({
                 <Text fontSize={'xl'}>
                     Listado de productos para la gestion de stock. Para ingresar un nuevo producto, hace click en el boton. <Link href={"/stock/nuevo"}><Button colorScheme={"blue"}>Nuevo producto</Button></Link>
                 </Text>
-                <Text fontSize={'xl'}>
-                    Imprimir codigo de barra a todos los productos. <ModalGenerarCodigos listado={listado} imprimir={imprimir} />
+                <Text fontSize={'xl'} border="1px" p={2} borderColor="white">
+                    Generar codigos para todos los productos de una sola ves. {" "}
+                    {
+                        !cate ? (
+                            <FormControl isRequired w="xs" >
+                                <Alert className='mt-4' status='info' ariant='left-accent'>
+                                    <AlertIcon />
+                                    <AlertDescription>No hay categorias registradas.</AlertDescription>
+                                    <VisuallyHidden><Input type={"text"} ref={categoriaRef} value="0" /></VisuallyHidden>
+
+                                </Alert>
+                            </FormControl>
+                        ) : (
+                            <Box className='row' mt={"4"} justifyContent={"center"}>
+                                <FormControl className='col-md-4' isRequired w="xs" >
+
+                                    <Select placeholder='Traer Todos' defaultValue={cate.idcategoria} ref={cateCodRef}>
+                                        {
+                                            cate.map((c, index) => (
+                                                <option key={index} value={c.idcategoria}>{c.categoria}</option>
+                                            ))
+                                        }
+                                    </Select>
+
+                                </FormControl>
+
+                                <FormControl className='col-md-2' isRequired w="xs" >
+                                    <Button colorScheme={"blue"}  onClick={traerStock2} >Buscar</Button>
+                                </FormControl>
+                                <FormControl className='col-md-2' isRequired w="xs" >
+                                    <Link
+                                        href={{ pathname: '/stock/codigos', query: { id: idCate } }}
+                                    >
+                                        <a target="_blank" >
+                                            <Button colorScheme={"orange"}>Generar Codigos</Button>
+                                        </a>
+                                    </Link>
+                                </FormControl>
+
+                            </Box>
+                        )
+                    }
+
                 </Text>
             </Stack>
 

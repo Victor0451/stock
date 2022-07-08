@@ -21,6 +21,7 @@ import { ip } from '../../config/config'
 const Listado = () => {
 
     let categoriaRef = React.createRef()
+    let cateCodRef = React.createRef()
     let proveedorRef = React.createRef()
     let marcaRef = React.createRef()
     let productoRef = React.createRef()
@@ -39,12 +40,17 @@ const Listado = () => {
     const [createObjectURL, setCreateObjectURL] = useState(null);
     const [cate, guardarCate] = useState(null)
     const [provee, guardarProvee] = useState(null)
-
+    const [idCate, guardarIdCate] = useState(null)
 
 
     const traerStock = async () => {
 
-        await axios.get(`/api/stock/productos`)
+
+        await axios.get(`/api/stock/productos`, {
+            params: {
+                f: "todo"
+            }
+        })
             .then(res => {
 
                 if (res.data.msg === "Productos Encontrados") {
@@ -64,7 +70,73 @@ const Listado = () => {
 
                 toastr.danger("Ocurrio un error al registrar el producto", "ATENCION")
             })
+    }
 
+
+    const traerStock2 = async () => {
+
+        guardarIdCate(cateCodRef.current.value)
+
+        if (cateCodRef.current.value === "") {
+
+            await axios.get(`/api/stock/productos`, {
+                params: {
+                    f: "todo"
+                }
+            })
+                .then(res => {
+
+                    if (res.data.msg === "Productos Encontrados") {
+
+                        toastr.success("Generando stock", "ATENCION")
+                        guardarListado(res.data.body)
+
+                    } else if (res.data.msg === "No Hay Productos") {
+
+                        toastr.warning("No hay productos registrados", "ATENCION")
+
+
+                    }
+
+                })
+                .catch(error => {
+                    console.log(error)
+
+                    toastr.danger("Ocurrio un error al registrar el producto", "ATENCION")
+                })
+        } else {
+
+            await axios.get(`/api/stock/productos`, {
+                params: {
+                    f: "cate",
+                    id: cateCodRef.current.value
+                }
+            })
+                .then(res => {
+
+                    if (res.data.msg === "Productos Encontrados") {
+
+                        toastr.success("Generando stock", "ATENCION")
+                        guardarListado(res.data.body)
+                        console.log(res.data.body)
+
+
+                    } else if (res.data === "No hay productos") {
+
+                        toastr.warning("No hay productos registrados bajo esa categoria", "ATENCION")
+
+                        guardarListado([])
+
+
+                    }
+
+                })
+                .catch(error => {
+                    console.log(error)
+
+                    toastr.danger("Ocurrio un error al registrar el producto", "ATENCION")
+                })
+        }
 
     }
 
@@ -418,6 +490,7 @@ const Listado = () => {
                 <ListadoStock
                     listado={listado}
                     categoriaRef={categoriaRef}
+                    cateCodRef={cateCodRef}
                     proveedorRef={proveedorRef}
                     marcaRef={marcaRef}
                     productoRef={productoRef}
@@ -438,6 +511,8 @@ const Listado = () => {
                     cate={cate}
                     provee={provee}
                     imprimir={imprimir}
+                    traerStock2={traerStock2}
+                    idCate={idCate}
                 />
 
             ) : (
