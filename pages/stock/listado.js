@@ -37,10 +37,10 @@ const Listado = () => {
     const [listado, guardarListado] = useState(null)
     const [errores, guardarErrores] = useState(null)
     const [imagen, guardarImagen] = useState(null);
-    const [createObjectURL, setCreateObjectURL] = useState(null);
     const [cate, guardarCate] = useState(null)
     const [provee, guardarProvee] = useState(null)
     const [idCate, guardarIdCate] = useState(null)
+    const [show, guardarShow] = useState(false)
 
 
     const traerStock = async () => {
@@ -72,12 +72,20 @@ const Listado = () => {
             })
     }
 
-
     const traerStock2 = async () => {
+
+        if (cateCodRef.current.value !== "") {
+
+            guardarShow(true)
+
+        } else {
+
+            guardarShow(false)
+        }
 
         guardarIdCate(cateCodRef.current.value)
 
-        if (cateCodRef.current.value === "") {
+        if (cateCodRef.current.value === "todo") {
 
             await axios.get(`/api/stock/productos`, {
                 params: {
@@ -513,6 +521,7 @@ const Listado = () => {
                     imprimir={imprimir}
                     traerStock2={traerStock2}
                     idCate={idCate}
+                    show={show}
                 />
 
             ) : (

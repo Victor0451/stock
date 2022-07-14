@@ -31,10 +31,11 @@ import {
     Textarea,
     Select,
     Image,
-    Text
+    Text,
+    Stack
 } from '@chakra-ui/react'
 
-import BarCode from '../../components/Stock/BarCode'
+import BarCode from '../../components/Stock/BarCode2'
 
 const codigos = () => {
 
@@ -42,40 +43,80 @@ const codigos = () => {
 
     const [listado, guardarListado] = useState(null)
 
+    const [list1, guardarList1] = useState([])
+    const [list2, guardarList2] = useState([])
+    const [list3, guardarList3] = useState([])
 
-    const traerStock = async (id) => {
 
-        if (id === "") {
+    const traerStock = async (id, f) => {
 
-            await axios.get(`/api/stock/productos`, {
-                params: {
-                    f: "todo"
-                }
-            })
-                .then(res => {
+        if (f === 0) {
 
-                    if (res.data.msg === "Productos Encontrados") {
+            if (id === "todo") {
 
-                        toastr.success("Generando stock", "ATENCION")
-                        guardarListado(res.data.body)
-
-                    } else if (res.data.msg === "No Hay Productos") {
-
-                        toastr.warning("No hay productos registrados", "ATENCION")
-
+                await axios.get(`/api/stock/productos`, {
+                    params: {
+                        f: "todo"
                     }
-
                 })
-                .catch(error => {
-                    console.log(error)
+                    .then(res => {
 
-                    toastr.danger("Ocurrio un error al registrar el producto", "ATENCION")
+                        if (res.data.msg === "Productos Encontrados") {
+
+                            // toastr.success("Generando stock", "ATENCION")
+                            guardarListado(res.data.body)
+
+                            segmentarArray(res.data.body)
+
+                        } else if (res.data.msg === "No Hay Productos") {
+
+                            toastr.warning("No hay productos registrados", "ATENCION")
+
+                        }
+
+                    })
+                    .catch(error => {
+                        console.log(error)
+
+                        toastr.danger("Ocurrio un error al registrar el producto", "ATENCION")
+                    })
+            } else {
+
+                await axios.get(`/api/stock/productos`, {
+                    params: {
+                        f: "cate",
+                        id: id
+                    }
                 })
-        } else {
+                    .then(res => {
+
+                        if (res.data.msg === "Productos Encontrados") {
+
+                            // toastr.success("Generando stock", "ATENCION")
+                            guardarListado(res.data.body)
+
+                            segmentarArray(res.data.body)
+
+                        } else if (res.data.msg === "No Hay Productos") {
+
+                            toastr.warning("No hay productos registrados", "ATENCION")
+
+                        }
+
+                    })
+                    .catch(error => {
+                        console.log(error)
+
+                        toastr.danger("Ocurrio un error al registrar el producto", "ATENCION")
+                    })
+            }
+
+
+        } else if (f === 1) {
 
             await axios.get(`/api/stock/productos`, {
                 params: {
-                    f: "cate",
+                    f: "codigo",
                     id: id
                 }
             })
@@ -83,7 +124,7 @@ const codigos = () => {
 
                     if (res.data.msg === "Productos Encontrados") {
 
-                        toastr.success("Generando stock", "ATENCION")
+                        // toastr.success("Generando stock", "ATENCION")
                         guardarListado(res.data.body)
 
                     } else if (res.data.msg === "No Hay Productos") {
@@ -98,23 +139,33 @@ const codigos = () => {
 
                     toastr.danger("Ocurrio un error al registrar el producto", "ATENCION")
                 })
+
         }
 
+
+
+    }
+
+    const segmentarArray = (arr) => {
+
+        let total = arr
+
+        let p1 = Math.floor(total.length / 3);
+
+        let p2 = p1 * 2;
+
+        let list1 = total.slice(0, p1);
+        guardarList1(list1)
+
+        let list2 = total.slice(p1, p2);
+        guardarList2(list2)
+
+        let list3 = total.slice(p2, total.length);
+        guardarList3(list3)
 
     }
 
     let token = jsCookie.get("token")
-
-    let router = useRouter()
-
-
-    let id = router.query.id
-
-    if (id) {
-
-        jsCookie.set("idCate", id)
-    }
-
 
     useEffect(() => {
 
@@ -122,9 +173,15 @@ const codigos = () => {
             Router.push("/redirect");
         } else {
 
-            if (jsCookie.get("idCate")) {
 
-                traerStock(jsCookie.get("idCate"))
+            if (jsCookie.get("idCate") && !jsCookie.get("codigo")) {
+
+                traerStock(jsCookie.get("idCate"), 0)
+
+            } else if (!jsCookie.get("idCate") && jsCookie.get("codigo")) {
+
+                traerStock(jsCookie.get("codigo"), 1)
+
             }
 
         }
@@ -132,23 +189,59 @@ const codigos = () => {
 
     }, []);
 
+
     return (
         <Layout
             f={"codigo"}
+
         >
-            {listado ? (
+            <Box
+                className="row"
+            >
 
-                <Box
-                    p={4}>
-                    <BarCode
-                        arr={listado}
-                    />
-                </Box>
-            ) : null}
+                {!jsCookie.get("codigo") ? (
+                    <>
+
+                        <Box className='col-md-4' id="cod">
+                            {listado ? (
+                                <BarCode
+                                    arr={list1}
+                                />
+                            ) : null}
+                        </Box>
+
+                        <Box className='col-md-4' id="cod">
+                            {listado ? (
+                                <BarCode
+                                    arr={list2}
+                                />
+                            ) : null}
+                        </Box>
+
+                        <Box className='col-md-4' id="cod">
+                            {listado ? (
+                                <BarCode
+                                    arr={list3}
+                                />
+                            ) : null}
+                        </Box>
+
+                    </>
+                ) : (
+
+                    <Box className='col-md-4' id="cod">
+                        {listado ? (
+                            <BarCode
+                                arr={listado}
+                            />
+                        ) : null}
+                    </Box>
+                )}
+
+            </Box>
 
 
-
-        </Layout>
+        </Layout >
     )
 }
 

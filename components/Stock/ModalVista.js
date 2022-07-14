@@ -138,9 +138,9 @@ const ModalVista = ({
                                     <Input type='number' value={row.stock} />
                                 </FormControl>
 
-                                <FormControl w="xs" mt="6">
+                                <FormControl w="md" mt="6">
                                     <FormLabel >Codigo</FormLabel>
-                                    <BarCode2 codigo={row.codigo} />
+                                    <BarCode2 row={row} />
                                 </FormControl>
 
                                 {!row.imagen || row.imagen === ' ' ?

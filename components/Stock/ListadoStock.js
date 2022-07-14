@@ -19,6 +19,7 @@ import {
     Select
 } from '@chakra-ui/react';
 
+import { LinkIcon } from '@chakra-ui/icons'
 //import Link from 'next/link';
 import ModalVista from './ModalVista';
 import ModalEditar from './ModalEditar';
@@ -26,6 +27,7 @@ import BajaProductos from './BajaProductos';
 import ExportarExcel from './ExportarExcel';
 import ModalCodigo from './ModalCodigo';
 import Link from 'next/link';
+import jsCookie from 'js-cookie'
 
 
 const ListadoStock = ({
@@ -52,7 +54,8 @@ const ListadoStock = ({
     provee,
     imprimir,
     traerStock2,
-    idCate
+    idCate,
+    show
 }) => {
 
     const columns = [
@@ -111,10 +114,26 @@ const ListadoStock = ({
             (
                 <>
 
-                    <ModalCodigo
-                        row={row}
-                        imprimir={imprimir}
-                    />
+
+                    <Link
+                        href={{ pathname: '/stock/codigos' }}
+                    >
+                        <a target="_blank" >
+                            <Button
+                                colorScheme="orange"
+                                size='xs'
+                                mr={1}
+                                ml={-5}
+                                onClick={() => {
+                                    jsCookie.set("codigo", row.codigo)
+                                    jsCookie.remove("idCate")
+                                }}
+
+                            >
+                                <LinkIcon />
+                            </Button>
+                        </a>
+                    </Link>
 
                     <ModalVista
                         row={row}
@@ -233,7 +252,8 @@ const ListadoStock = ({
                             <Box className='row' mt={"4"} justifyContent={"center"}>
                                 <FormControl className='col-md-4' isRequired w="xs" >
 
-                                    <Select placeholder='Traer Todos' defaultValue={cate.idcategoria} ref={cateCodRef}>
+                                    <Select placeholder='Selecciona una Opcion' defaultValue={cate.idcategoria} ref={cateCodRef}>
+                                        <option value={"todo"}>Traer Todos</option>
                                         {
                                             cate.map((c, index) => (
                                                 <option key={index} value={c.idcategoria}>{c.categoria}</option>
@@ -244,17 +264,39 @@ const ListadoStock = ({
                                 </FormControl>
 
                                 <FormControl className='col-md-2' isRequired w="xs" >
-                                    <Button colorScheme={"blue"}  onClick={traerStock2} >Buscar</Button>
+                                    <Button colorScheme={"blue"} onClick={traerStock2} >Buscar</Button>
                                 </FormControl>
-                                <FormControl className='col-md-2' isRequired w="xs" >
-                                    <Link
-                                        href={{ pathname: '/stock/codigos', query: { id: idCate } }}
-                                    >
-                                        <a target="_blank" >
-                                            <Button colorScheme={"orange"}>Generar Codigos</Button>
-                                        </a>
-                                    </Link>
-                                </FormControl>
+
+                                {
+                                    show === false ? (
+                                        <FormControl className='col-md-6' isRequired w="xs" >
+                                            <Alert status='info' ariant='left-accent'>
+                                                <AlertIcon />
+                                                <AlertDescription>Debes elegir una categoria para poder generar los codigos.</AlertDescription>
+                                                <VisuallyHidden><Input type={"text"} ref={categoriaRef} value="0" /></VisuallyHidden>
+
+                                            </Alert>
+                                        </FormControl>
+                                    ) : (
+                                        <FormControl className='col-md-2' isRequired w="xs" >
+                                            <Link
+                                                href={{ pathname: '/stock/codigos' }}
+                                            >
+                                                <a target="_blank" >
+                                                    <Button colorScheme={"orange"} onClick={() => {
+
+                                                        jsCookie.set("idCate", idCate)
+                                                        jsCookie.remove("codigo")
+
+                                                    }}>Generar Codigos</Button>
+                                                </a>
+                                            </Link>
+                                        </FormControl>
+                                    )
+                                }
+
+
+
 
                             </Box>
                         )

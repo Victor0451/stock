@@ -20,7 +20,8 @@ import {
     AlertIcon,
     Textarea,
     Select,
-    Image
+    Image,
+    Text
 } from '@chakra-ui/react'
 
 import { LinkIcon } from '@chakra-ui/icons'
@@ -69,16 +70,9 @@ const ModalCodigo = ({
                         <Container maxW={'6xl'} mt={10} border='1px' borderColor='gray.500' borderRadius="xl" >
                             <Box className='row' p="4" alignItems="center" justifyContent="space-between">
 
-
-                                <FormControl w="xs" mt="6" >
-                                    <FormLabel >Codigo</FormLabel>
-                                    <div id="codigo">
-                                        <FormLabel color={"black"}  >{row.marca} - {row.producto}</FormLabel>
-                                        <BarCode2 codigo={row.codigo} />
-                                        <FormLabel color={"black"} >${row.precio_venta}</FormLabel>
-                                    </div>
-                                </FormControl>
-
+                                <Box id='codigo' className='col-md-8'>
+                                    <BarCode2 row={row} />
+                                </Box>
 
                                 <FormControl w="xs" mt="6">
                                     <Button colorScheme={"blue"} onClick={() => imprimir("codigo")}>Imprimir</Button>
