@@ -1,33 +1,9 @@
 import React from 'react'
 import Code from 'react-jsbarcode';
 import {
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalFooter,
-    ModalBody,
-    ModalCloseButton,
-    useDisclosure,
-    Button,
-    Container,
     Box,
-    FormControl,
-    FormLabel,
-    Input,
-    useColorModeValue,
-    Alert,
-    AlertDescription,
-    AlertIcon,
-    Textarea,
-    Select,
-    Image,
-    Heading,
     Text,
     Stack,
-    Center,
-    Flex,
-    Badge,
 } from '@chakra-ui/react'
 
 const BarCode = ({
@@ -64,7 +40,7 @@ const BarCode = ({
                                         <Text fontSize={"sm"} >{e.producto} </Text>
                                     </Stack>
                                     <Stack className='col-5' border={"1px"} borderColor="black">
-                                        <Text align={"center"}  fontSize={"4xl"} mt={10}>${e.precio_venta} </Text>
+                                        <Text align={"center"} fontSize={"4xl"} mt={10}>${e.precio_venta} </Text>
                                     </Stack>
                                 </Box>
 
@@ -94,7 +70,7 @@ const BarCode = ({
                             <Text fontSize={"sm"} >{row.producto} </Text>
                         </Stack>
                         <Stack className='col-4' border={"1px"} borderColor="black">
-                            <Text align={"center"}  fontSize={"4xl"} mt={10}>${row.precio_venta} </Text>
+                            <Text align={"center"} fontSize={"4xl"} mt={10}>${row.precio_venta} </Text>
                         </Stack>
                     </Box>
 
